@@ -1,40 +1,54 @@
-const header = document.querySelector('.site-header');
-const menuButton = document.querySelector('.menu-button');
-const menu = document.querySelector('.main-nav');
+document.body.classList.remove('no-js');
 
-function setHeaderState() {
-  header.classList.toggle('scrolled', window.scrollY > 28);
-}
+const root = document.documentElement;
+const header = document.getElementById('hdr');
+const menuButton = document.querySelector('.menu-btn');
+const themeButton = document.querySelector('.theme-toggle');
+const navigation = document.getElementById('nav');
+
+requestAnimationFrame(() => document.body.classList.add('loaded'));
 
 function closeMenu() {
-  menu.classList.remove('open');
+  header.classList.remove('open');
   menuButton.setAttribute('aria-expanded', 'false');
   menuButton.setAttribute('aria-label', 'Open menu');
-  document.body.classList.remove('menu-open');
 }
 
 menuButton.addEventListener('click', () => {
-  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  menu.classList.toggle('open', !isOpen);
-  menuButton.setAttribute('aria-expanded', String(!isOpen));
-  menuButton.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
-  document.body.classList.toggle('menu-open', !isOpen);
+  const open = header.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(open));
+  menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
 
-menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-window.addEventListener('scroll', setHeaderState, { passive: true });
-setHeaderState();
+navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+function applyTheme(theme) {
+  root.dataset.theme = theme;
+  const dark = theme === 'dark';
+  themeButton.classList.toggle('is-dark', dark);
+  themeButton.setAttribute('aria-pressed', String(dark));
+  themeButton.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  themeButton.querySelector('span').textContent = dark ? 'Light' : 'Dark';
+}
+
+applyTheme(localStorage.getItem('vesterra-theme') || 'light');
+themeButton.addEventListener('click', () => {
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('vesterra-theme', next);
+  applyTheme(next);
+});
+
+window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 16), { passive: true });
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+      entry.target.classList.add('in');
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.14 });
-
-document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+}, { threshold: .14 });
+document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
 document.getElementById('contact-form').addEventListener('submit', (event) => {
   event.preventDefault();
@@ -43,16 +57,14 @@ document.getElementById('contact-form').addEventListener('submit', (event) => {
   const phone = String(data.get('phone') || '').trim();
   const interest = String(data.get('interest') || '').trim();
   const message = String(data.get('message') || '').trim();
-
-  const lines = [
+  const text = [
     'Hello Vesterra Group,',
     '',
-    `I’m ${name}. I’m interested in: ${interest}.`,
-    phone ? `My phone number is ${phone}.` : '',
-    message ? `Message: ${message}` : '',
-  ].filter(Boolean);
-
-  window.open(`https://wa.me/919878708190?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    `I’m ${name} and I’m interested in ${interest}.`,
+    `My phone number is ${phone}.`,
+    message ? `Message: ${message}` : ''
+  ].filter(Boolean).join('\n');
+  window.open(`https://wa.me/919878708190?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
