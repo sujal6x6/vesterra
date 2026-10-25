@@ -9,36 +9,40 @@ const navigation = document.getElementById('nav');
 requestAnimationFrame(() => document.body.classList.add('loaded'));
 
 function closeMenu() {
+  if (!header || !menuButton) return;
   header.classList.remove('open');
   menuButton.setAttribute('aria-expanded', 'false');
   menuButton.setAttribute('aria-label', 'Open menu');
 }
 
-menuButton.addEventListener('click', () => {
+menuButton?.addEventListener('click', () => {
   const open = header.classList.toggle('open');
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 });
 
-navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
 function applyTheme(theme) {
   root.dataset.theme = theme;
   const dark = theme === 'dark';
-  themeButton.classList.toggle('is-dark', dark);
-  themeButton.setAttribute('aria-pressed', String(dark));
-  themeButton.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-  themeButton.querySelector('span').textContent = dark ? 'Light' : 'Dark';
+  if (themeButton) {
+    themeButton.classList.toggle('is-dark', dark);
+    themeButton.setAttribute('aria-pressed', String(dark));
+    themeButton.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    const label = themeButton.querySelector('span');
+    if (label) label.textContent = dark ? 'Light' : 'Dark';
+  }
 }
 
 applyTheme(localStorage.getItem('vesterra-theme') || 'light');
-themeButton.addEventListener('click', () => {
+themeButton?.addEventListener('click', () => {
   const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
   localStorage.setItem('vesterra-theme', next);
   applyTheme(next);
 });
 
-window.addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 16), { passive: true });
+window.addEventListener('scroll', () => header?.classList.toggle('scrolled', scrollY > 16), { passive: true });
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -50,7 +54,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: .14 });
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
-document.getElementById('contact-form').addEventListener('submit', async (event) => {
+document.getElementById('contact-form')?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
   const data = new FormData(event.currentTarget);
@@ -76,7 +80,7 @@ document.getElementById('contact-form').addEventListener('submit', async (event)
   }
 });
 
-document.getElementById('year').textContent = new Date().getFullYear();
+document.querySelectorAll('[id="year"]').forEach((element) => { element.textContent = new Date().getFullYear(); });
 
 loadWebsiteSettings();
 
@@ -88,45 +92,115 @@ async function loadWebsiteSettings() {
     const hero = settings.hero || {};
     const contact = settings.contact || {};
     const social = settings.social || {};
-    if (hero.eyebrow) document.getElementById('heroEyebrow').textContent = hero.eyebrow;
-    if (hero.lead) document.getElementById('heroLead').textContent = hero.lead;
-    if (hero.cardTitle) document.getElementById('heroCardTitle').textContent = hero.cardTitle;
-    if (hero.cardText) document.getElementById('heroCardText').textContent = hero.cardText;
+    const setText = (id, value) => { const el = document.getElementById(id); if (el && value) el.textContent = value; };
+    setText('heroEyebrow', hero.eyebrow);
+    setText('heroLead', hero.lead);
+    setText('heroCardTitle', hero.cardTitle);
+    setText('heroCardText', hero.cardText);
     if (hero.title) {
       const lines = hero.title.split(/\n+/).map(line => line.trim()).filter(Boolean);
       const title = document.getElementById('heroTitle');
-      title.textContent = '';
-      lines.forEach((line, index) => {
-        const span = document.createElement('span');
-        span.className = index ? 'ln hero-trust' : 'ln hero-values';
-        if (index) { const accent = document.createElement('span'); accent.className = 'o'; accent.textContent = line; span.append(accent); }
-        else {
-          span.textContent = line;
-          if (lines.length > 1) { const separator = document.createElement('span'); separator.className = 'sep'; separator.textContent = ' |'; span.append(separator); }
-        }
-        title.append(span);
-      });
+      if (title) {
+        title.textContent = '';
+        lines.forEach((line, index) => {
+          const span = document.createElement('span');
+          span.className = index ? 'ln hero-trust' : 'ln hero-values';
+          if (index) { const accent = document.createElement('span'); accent.className = 'o'; accent.textContent = line; span.append(accent); }
+          else {
+            span.textContent = line;
+            if (lines.length > 1) { const separator = document.createElement('span'); separator.className = 'sep'; separator.textContent = ' |'; span.append(separator); }
+          }
+          title.append(span);
+        });
+      }
     }
     if (contact.phone) {
       document.querySelectorAll('[data-phone-text]').forEach(el => { el.textContent = contact.phone; });
       document.querySelectorAll('[data-phone-link]').forEach(el => { el.href = `tel:${contact.phone.replace(/[^+\d]/g,'')}`; });
     }
     if (contact.address) {
-      document.getElementById('addressText').textContent = contact.address;
-      document.getElementById('footerAddress').textContent = contact.address;
-      document.getElementById('addressLink').href = `https://maps.google.com/?q=${encodeURIComponent(contact.address)}`;
+      setText('addressText', contact.address);
+      setText('footerAddress', contact.address);
+      const addressLink = document.getElementById('addressLink');
+      if (addressLink) addressLink.href = `https://maps.google.com/?q=${encodeURIComponent(contact.address)}`;
     }
-    if (contact.whatsapp) document.getElementById('whatsappLink').href = `https://wa.me/${contact.whatsapp.replace(/\D/g,'')}`;
+    const whatsappLink = document.getElementById('whatsappLink');
+    if (contact.whatsapp && whatsappLink) whatsappLink.href = `https://wa.me/${contact.whatsapp.replace(/\D/g,'')}`;
     Object.entries(social).forEach(([key,value]) => { const link = document.querySelector(`[data-social="${key}"]`); if (link && value) link.href = value; });
-    if (settings.seo?.title) document.title = settings.seo.title;
+    if (location.pathname === '/' && settings.seo?.title) document.title = settings.seo.title;
     const description = document.querySelector('meta[name="description"]');
-    if (description && settings.seo?.description) description.content = settings.seo.description;
+    if (location.pathname === '/' && description && settings.seo?.description) description.content = settings.seo.description;
   } catch (_) {
     // The authored defaults remain visible if settings are temporarily unavailable.
   }
 }
 
 loadPublicContent();
+loadFeaturedProperties();
+
+const requestedProperty = new URLSearchParams(location.search).get('property');
+const contactForm = document.getElementById('contact-form');
+if (requestedProperty && contactForm) {
+  const interest = contactForm.querySelector('[name="interest"]');
+  const message = contactForm.querySelector('[name="message"]');
+  if (interest) interest.value = 'Real Estate';
+  if (message && !message.value) message.value = `I would like to know more about ${requestedProperty}.`;
+}
+
+async function loadFeaturedProperties() {
+  const grid = document.getElementById('featuredProperties');
+  const section = document.getElementById('featuredPropertiesSection');
+  if (!grid || !section) return;
+  try {
+    const response = await fetch('/api/public/properties?featured=1', { cache: 'no-store' });
+    if (!response.ok) return;
+    const { properties = [] } = await response.json();
+    properties.forEach((property) => {
+      const article = document.createElement('article');
+      article.className = 'property-card reveal in';
+      const imageLink = document.createElement('a');
+      imageLink.className = 'property-image';
+      imageLink.href = `/property/${encodeURIComponent(property.slug)}`;
+      if (property.imageUrl) {
+        const img = document.createElement('img');
+        img.src = property.imageUrl;
+        img.alt = property.title;
+        img.loading = 'lazy';
+        imageLink.append(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'property-placeholder';
+        const mark = document.createElement('span');
+        mark.textContent = 'V';
+        placeholder.append(mark);
+        imageLink.append(placeholder);
+      }
+      const status = document.createElement('span');
+      status.className = 'property-status';
+      status.textContent = property.status;
+      imageLink.append(status);
+      const body = document.createElement('div');
+      body.className = 'property-body';
+      const meta = document.createElement('div'); meta.className = 'property-meta';
+      const type = document.createElement('span'); type.textContent = property.propertyType;
+      const location = document.createElement('span'); location.textContent = property.location;
+      meta.append(type, location);
+      const title = document.createElement('h3'); title.textContent = property.title;
+      const facts = document.createElement('div'); facts.className = 'property-facts';
+      [property.bedrooms ? `${property.bedrooms} beds` : '', property.bathrooms ? `${property.bathrooms} baths` : '', property.area].filter(Boolean).forEach(value => { const span = document.createElement('span'); span.textContent = value; facts.append(span); });
+      const foot = document.createElement('div'); foot.className = 'property-foot';
+      const price = document.createElement('strong'); price.textContent = property.price;
+      const link = document.createElement('a'); link.href = `/property/${encodeURIComponent(property.slug)}`; link.textContent = 'View property →';
+      foot.append(price, link);
+      body.append(meta, title, facts, foot);
+      article.append(imageLink, body);
+      grid.append(article);
+    });
+    section.hidden = properties.length === 0;
+  } catch (_) {
+    // The hand-authored home page remains complete without dynamic listings.
+  }
+}
 
 async function loadPublicContent() {
   try {

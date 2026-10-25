@@ -9,14 +9,20 @@ Open `/admin` and sign in with the ChatGPT account allowed to access the Site.
 
 The dashboard includes:
 
+- property listing creation, editing, homepage featuring and publishing;
 - enquiry and lead management;
 - review approval and verification;
 - gallery image/video links with visibility controls;
 - hero, contact, social and SEO settings;
 - live dashboard totals.
 
-Approved reviews and published gallery items appear automatically on the public
-website. Website enquiries are saved in the Leads inbox.
+Published properties appear on `/properties`, each with its own detail page.
+Featured properties also appear on the home page. Approved reviews and
+published gallery items appear automatically, while website enquiries are saved
+in the Leads inbox.
+
+The public website also has dedicated `/about`, `/services`, `/properties` and
+`/contact` routes, with shared navigation, transitions and responsive layouts.
 
 ## Local development
 

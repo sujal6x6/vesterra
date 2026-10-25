@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { getDb } from "@/db";
-import { enquiries, gallery, reviews } from "@/db/schema";
+import { enquiries, gallery, properties, reviews } from "@/db/schema";
 import { requireAdminApi } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
@@ -9,8 +9,9 @@ export async function GET() {
   const auth = await requireAdminApi();
   if (auth.error) return auth.error;
   const db = getDb();
-  const [leadRows, reviewRows, galleryRows] = await Promise.all([
+  const [leadRows, propertyRows, reviewRows, galleryRows] = await Promise.all([
     db.select({ status: enquiries.status, count: sql<number>`count(*)` }).from(enquiries).groupBy(enquiries.status),
+    db.select({ count: sql<number>`count(*)` }).from(properties).where(sql`${properties.published} = 1`),
     db.select({ status: reviews.status, count: sql<number>`count(*)` }).from(reviews).groupBy(reviews.status),
     db.select({ count: sql<number>`count(*)` }).from(gallery),
   ]);
@@ -20,6 +21,7 @@ export async function GET() {
     stats: {
       leadsNew: leads.new || 0,
       leadsTotal: Object.values(leads).reduce((a, b) => a + b, 0),
+      propertiesPublished: Number(propertyRows[0]?.count || 0),
       reviewsPending: reviewCounts.pending || 0,
       reviewsPublished: reviewCounts.approved || 0,
       gallery: Number(galleryRows[0]?.count || 0),

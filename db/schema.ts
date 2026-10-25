@@ -39,3 +39,22 @@ export const gallery = sqliteTable("gallery", {
   position: integer("position").notNull().default(0),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const properties = sqliteTable("properties", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  location: text("location").notNull(),
+  propertyType: text("property_type").notNull().default("Residential"),
+  price: text("price").notNull().default("Price on request"),
+  bedrooms: integer("bedrooms").notNull().default(0),
+  bathrooms: integer("bathrooms").notNull().default(0),
+  area: text("area").notNull().default(""),
+  imageUrl: text("image_url").notNull().default(""),
+  description: text("description").notNull().default(""),
+  status: text("status").notNull().default("Available"),
+  featured: integer("featured", { mode: "boolean" }).notNull().default(false),
+  published: integer("published", { mode: "boolean" }).notNull().default(true),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});

@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import { and, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+import { getDb } from "@/db";
+import { properties } from "@/db/schema";
+import { PublicLayout } from "@/components/public-layout";
+
+export const dynamic="force-dynamic";
+async function findProperty(slug:string){const rows=await getDb().select().from(properties).where(and(eq(properties.slug,slug),eq(properties.published,true))).limit(1);return rows[0]||null}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const property=await findProperty(slug);return property?{title:`${property.title} | Vesterra Group`,description:property.description.slice(0,160)}:{title:"Property | Vesterra Group"}}
+export default async function PropertyPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const property=await findProperty(slug);if(!property)notFound();return <PublicLayout current="/properties"><section className="property-detail-hero"><div className="wrap property-detail-grid"><div className="property-detail-image">{property.imageUrl?<img src={property.imageUrl} alt={property.title}/>:<div className="property-placeholder"><span>V</span></div>}<span className="property-status">{property.status}</span></div><div className="property-detail-copy"><div className="eyebrow">{property.propertyType} · {property.location}</div><h1>{property.title}</h1><p className="property-price">{property.price}</p><div className="property-detail-facts">{property.bedrooms>0?<div><b>{property.bedrooms}</b><span>Bedrooms</span></div>:null}{property.bathrooms>0?<div><b>{property.bathrooms}</b><span>Bathrooms</span></div>:null}{property.area?<div><b>{property.area}</b><span>Area</span></div>:null}</div><a className="btn btn-primary" href={`/contact?property=${encodeURIComponent(property.title)}`}>Enquire about this property</a></div></div></section><section className="sec"><div className="wrap property-description"><div><div className="eyebrow">Property overview</div><h2 className="h2">Details that matter.</h2></div><p>{property.description||"Contact the Vesterra team for complete details, availability and a personal discussion about this property."}</p></div></section></PublicLayout>}
