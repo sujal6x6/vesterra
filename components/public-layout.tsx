@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Script from "next/script";
 
 export function PublicLayout({ children, current }: { children:ReactNode; current?:string }) {
   const nav = [["/about","About"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
@@ -19,7 +20,7 @@ export function PublicLayout({ children, current }: { children:ReactNode; curren
       <div><h4>Contact</h4><a data-phone-link data-phone-text href="tel:+919878708190">+91 98787 08190</a><p id="footerAddress">SCO 254, 6th Floor, Mohali Citi Centre 2, Aerocity, F Block</p></div>
     </div><div className="wrap ftr-bot"><span>© {new Date().getFullYear()} Vesterra Group. All rights reserved.</span><a href="#top">Back to top ↑</a></div></footer>
     <a className="wa" id="whatsappLink" href="https://wa.me/919878708190" target="_blank" rel="noopener" aria-label="Chat with Vesterra Group on WhatsApp">WA</a>
-    <script src="/main.js" defer></script>
+    <Script src="/main.js" strategy="afterInteractive" />
   </div>;
 }
 
