@@ -1,22 +1,32 @@
-# Vesterra Group website
+# Vesterra Group website and admin
 
-Premium one-page website for Vesterra Group, themed around the supplied black-and-gold identity.
+Full-stack Vesterra Group website with a protected management dashboard and
+Cloudflare D1 persistence.
 
-## Preview locally
+## Admin
 
-From the `vesterra-site` directory:
+Open `/admin` and sign in with the ChatGPT account allowed to access the Site.
+
+The dashboard includes:
+
+- enquiry and lead management;
+- review approval and verification;
+- gallery image/video links with visibility controls;
+- hero, contact, social and SEO settings;
+- live dashboard totals.
+
+Approved reviews and published gallery items appear automatically on the public
+website. Website enquiries are saved in the Leads inbox.
+
+## Local development
 
 ```powershell
-python -m http.server 4173 --directory dist
+npm run dev -- --port 4173
 ```
 
-Then open `http://localhost:4173`.
+Sign in locally through:
 
-## Structure
+`http://127.0.0.1:4173/signin-with-chatgpt?return_to=/admin`
 
-- `dist/index.html` — page content and structure
-- `dist/styles.css` — responsive visual system
-- `dist/main.js` — navigation, scroll reveals, and WhatsApp enquiry flow
-- `dist/assets/vesterra-logo.jpeg` — supplied client logo
-
-The contact form opens WhatsApp with the visitor's enquiry pre-filled. No database or backend is required.
+The local and hosted D1 databases are separate. Schema changes live in
+`db/schema.ts` and generated migrations are under `drizzle/`.
