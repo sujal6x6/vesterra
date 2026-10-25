@@ -58,10 +58,10 @@
     <section class="hero" id="home">
       <div class="wrap hero-grid">
         <div>
-          <div class="eyebrow hero-load">Real Estate · Hospitality · Investments</div>
-          <h1 class="hero-load d2"><span class="ln hero-values">Building Legacies <span class="sep">|</span></span><span class="ln hero-trust"><span class="o">Creating Futures.</span></span></h1>
+          <div class="eyebrow hero-load" id="heroEyebrow">Real Estate · Hospitality · Investments</div>
+          <h1 class="hero-load d2" id="heroTitle"><span class="ln hero-values">Building Legacies <span class="sep">|</span></span><span class="ln hero-trust"><span class="o">Creating Futures.</span></span></h1>
           <div class="hero-rule" aria-hidden="true"></div>
-          <p class="lead hero-load d3">Vesterra Group brings thoughtful opportunities and enduring value together—across places to live, experiences to remember and investments shaped for tomorrow.</p>
+          <p class="lead hero-load d3" id="heroLead">Vesterra Group brings thoughtful opportunities and enduring value together—across places to live, experiences to remember and investments shaped for tomorrow.</p>
           <div class="hero-ctas hero-load d3">
             <a href="#contact" class="btn btn-primary">Talk to Our Team</a>
             <a href="#about" class="btn btn-secondary">Discover Vesterra</a>
@@ -76,7 +76,7 @@
           <div class="hero-frame"><img src="assets/vesterra-logo.jpeg" alt="Vesterra Group — Real Estate, Hospitality and Investments"></div>
           <div class="hero-card">
             <span class="ic"><svg><use href="#i-shield"/></svg></span>
-            <div><b>One group. Three horizons.</b><span>Building value with a long-term perspective.</span></div>
+            <div><b id="heroCardTitle">One group. Three horizons.</b><span id="heroCardText">Building value with a long-term perspective.</span></div>
           </div>
         </div>
       </div>
@@ -142,6 +142,27 @@
       </div>
     </section>
 
+    <section class="sec" id="gallery" hidden>
+      <div class="wrap">
+        <div class="sec-head reveal in">
+          <div class="eyebrow">Vesterra moments</div>
+          <h2 class="h2">A closer look at our world.</h2>
+          <p class="lede">Selected photos and videos from across the Vesterra journey.</p>
+        </div>
+        <div class="public-gallery" id="publicGallery"></div>
+      </div>
+    </section>
+
+    <section class="sec bg-soft" id="reviews" hidden>
+      <div class="wrap">
+        <div class="sec-head reveal in">
+          <div class="eyebrow">Client experiences</div>
+          <h2 class="h2">Trust shared in their words.</h2>
+        </div>
+        <div class="public-reviews" id="publicReviews"></div>
+      </div>
+    </section>
+
     <section class="sec" id="process">
       <div class="wrap">
         <div class="sec-head center reveal">
@@ -178,7 +199,7 @@
         <div class="eyebrow">Your next chapter</div>
         <h2>Let’s create what comes next, <span>together.</span></h2>
         <p>Connect with Vesterra Group to begin a considered conversation.</p>
-        <div class="ctas"><a class="btn btn-primary" href="#contact">Start a Conversation</a><a class="btn btn-ghost" href="tel:+919878708190">Call +91 98787 08190</a></div>
+        <div class="ctas"><a class="btn btn-primary" href="#contact">Start a Conversation</a><a class="btn btn-ghost" data-phone-link href="tel:+919878708190">Call <span data-phone-text>+91 98787 08190</span></a></div>
       </div>
     </section>
 
@@ -189,18 +210,19 @@
           <h2 class="h2">Talk to the Vesterra team.</h2>
           <p class="lede">Tell us which part of Vesterra you would like to explore. We’ll continue the conversation personally.</p>
           <ul class="cinfo">
-            <li><span class="ic"><svg><use href="#i-phone"/></svg></span><div><small>Call or WhatsApp</small><a href="tel:+919878708190">+91 98787 08190</a></div></li>
-            <li><span class="ic"><svg><use href="#i-building"/></svg></span><div><small>Visit</small><a href="https://maps.google.com/?q=SCO+254+6th+Floor+Mohali+Citi+Centre+2+Aerocity+F+Block" target="_blank" rel="noopener">SCO 254, 6th Floor, Mohali Citi Centre 2,<br>Aerocity, F Block</a></div></li>
+            <li><span class="ic"><svg><use href="#i-phone"/></svg></span><div><small>Call or WhatsApp</small><a data-phone-link data-phone-text href="tel:+919878708190">+91 98787 08190</a></div></li>
+            <li><span class="ic"><svg><use href="#i-building"/></svg></span><div><small>Visit</small><a id="addressLink" href="https://maps.google.com/?q=SCO+254+6th+Floor+Mohali+Citi+Centre+2+Aerocity+F+Block" target="_blank" rel="noopener"><span id="addressText">SCO 254, 6th Floor, Mohali Citi Centre 2, Aerocity, F Block</span></a></div></li>
           </ul>
         </div>
         <form class="form-card card reveal" id="contact-form">
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
           <div class="form-grid">
             <label class="fld"><span>Full name</span><input name="name" autocomplete="name" required></label>
             <label class="fld"><span>Phone</span><input name="phone" type="tel" autocomplete="tel" required></label>
             <label class="fld full"><span>I’m interested in</span><select name="interest"><option>Real Estate</option><option>Hospitality</option><option>Investments</option><option>General enquiry</option></select></label>
             <label class="fld full"><span>Tell us a little about your plans <em>(optional)</em></span><textarea name="message" rows="5" placeholder="Your requirements, preferred location, timeline or questions…"></textarea></label>
           </div>
-          <div class="form-foot"><span>Opens WhatsApp with your message ready.</span><button class="btn btn-primary" type="submit">Send Enquiry</button></div>
+          <div class="form-foot"><span id="formStatus">Your details are sent securely to Vesterra Group.</span><button class="btn btn-primary" type="submit">Send Enquiry</button></div>
         </form>
       </div>
     </section>
@@ -210,13 +232,13 @@
     <div class="wrap ftr-grid">
       <div><a href="#home" class="brand footer-brand"><img src="assets/vesterra-logo.jpeg" alt=""><span><strong>Vesterra</strong><small>Group</small></span></a><p>Building legacies. Creating futures.</p></div>
       <div><h4>Explore</h4><a href="#about">About</a><a href="#expertise">Our Verticals</a><a href="#why">Why Vesterra</a><a href="#process">Our Process</a></div>
-      <div><h4>Connect</h4><a href="https://www.instagram.com/vesterragroup?vrfl=bXFxemdiNXJpcG1u" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/share/19skHq8BAB/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a><a href="https://whatsapp.com/channel/0029VbE8aLwAO7RLOf1tpO0K" target="_blank" rel="noopener">WhatsApp Channel</a></div>
-      <div><h4>Contact</h4><a href="tel:+919878708190">+91 98787 08190</a><p>SCO 254, 6th Floor<br>Mohali Citi Centre 2<br>Aerocity, F Block</p></div>
+      <div><h4>Connect</h4><a data-social="instagram" href="https://www.instagram.com/vesterragroup?vrfl=bXFxemdiNXJpcG1u" target="_blank" rel="noopener">Instagram</a><a data-social="facebook" href="https://www.facebook.com/share/19skHq8BAB/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a><a data-social="whatsappChannel" href="https://whatsapp.com/channel/0029VbE8aLwAO7RLOf1tpO0K" target="_blank" rel="noopener">WhatsApp Channel</a></div>
+      <div><h4>Contact</h4><a data-phone-link data-phone-text href="tel:+919878708190">+91 98787 08190</a><p id="footerAddress">SCO 254, 6th Floor<br>Mohali Citi Centre 2<br>Aerocity, F Block</p></div>
     </div>
     <div class="wrap ftr-bot"><span>© <span id="year"></span> Vesterra Group. All rights reserved.</span><a href="#home">Back to top ↑</a></div>
   </footer>
 
-  <a class="wa" href="https://wa.me/919878708190" target="_blank" rel="noopener" aria-label="Chat with Vesterra Group on WhatsApp">WA</a>
+  <a class="wa" id="whatsappLink" href="https://wa.me/919878708190" target="_blank" rel="noopener" aria-label="Chat with Vesterra Group on WhatsApp">WA</a>
   <script src="main.js"></script>
 </body>
 </html>

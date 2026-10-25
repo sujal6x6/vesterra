@@ -1,0 +1,23 @@
+export const siteDefaults = {
+  hero: {
+    eyebrow: "Real Estate · Hospitality · Investments",
+    title: "Building Legacies\nCreating Futures.",
+    lead: "Vesterra Group brings thoughtful opportunities and enduring value together—across places to live, experiences to remember and investments shaped for tomorrow.",
+    cardTitle: "One group. Three horizons.",
+    cardText: "Building value with a long-term perspective.",
+  },
+  contact: {
+    phone: "+91 98787 08190",
+    whatsapp: "919878708190",
+    address: "SCO 254, 6th Floor, Mohali Citi Centre 2, Aerocity, F Block",
+  },
+  social: {
+    instagram: "https://www.instagram.com/vesterragroup?vrfl=bXFxemdiNXJpcG1u",
+    facebook: "https://www.facebook.com/share/19skHq8BAB/?mibextid=wwXIfr",
+    whatsappChannel: "https://whatsapp.com/channel/0029VbE8aLwAO7RLOf1tpO0K",
+  },
+  seo: {
+    title: "Vesterra Group | Building Legacies. Creating Futures.",
+    description: "Vesterra Group brings together real estate, hospitality and investments with a long-term perspective.",
+  },
+};
