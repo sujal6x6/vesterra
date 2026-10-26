@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import Script from "next/script";
 
-export function PublicLayout({ children, current }: { children:ReactNode; current?:string }) {
+export function PublicLayout({ children, current, pageClass = "" }: { children:ReactNode; current?:string; pageClass?:string }) {
   const nav = [["/about","About"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
-  return <div className="site-page">
+  return <div className={`site-page ${pageClass}`.trim()}>
     <link rel="stylesheet" href="/styles.css" />
     <header className="hdr" id="hdr"><div className="wrap hdr-in">
       <a href="/" className="brand" aria-label="Vesterra Group home"><img src="/assets/vesterra-logo.jpeg" alt="Vesterra Group"/><span><strong>Vesterra</strong><small>Group</small></span></a>

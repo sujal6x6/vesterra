@@ -53,3 +53,41 @@ h1,h2,h3,h4{font-family:var(--f-head);color:var(--heading);margin:0;line-height:
 @media(max-width:620px){.wrap{width:calc(100% - 36px)}.hdr-in{height:74px}.brand img{width:48px;height:48px}.brand strong{font-size:17px}.theme-toggle span{display:none}.hero{padding:24px 0 50px}.hero h1{font-size:40px}.hero-ctas{flex-direction:column}.hero-ctas .btn{width:100%}.hero-frame{aspect-ratio:4/3;border-radius:14px}.trust-list{display:grid;grid-template-columns:1fr}.why-grid,.public-gallery,.public-reviews{grid-template-columns:1fr}.principle-list li{grid-template-columns:1fr;gap:6px}.final .ctas{flex-direction:column}.final .btn{width:100%}.form-card{padding:18px 14px}.form-foot{align-items:stretch;flex-direction:column}.form-foot .btn{width:100%}.ftr-grid{grid-template-columns:1fr 1fr}.ftr-grid>div:first-child,.ftr-grid>div:last-child{grid-column:1/-1}.ftr-bot{gap:18px}.wa{right:16px;bottom:16px}}
 @media(max-width:620px){.page-hero{padding:70px 0}.page-hero h1{font-size:48px}.listing-head,.featured-head{align-items:flex-start;flex-direction:column}.property-grid{grid-template-columns:1fr}.property-detail-facts{gap:18px;flex-wrap:wrap}.vertical-page-card{grid-template-columns:38px 1fr;gap:15px}.vertical-page-card h2{font-size:30px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal,.hero-load{opacity:1;transform:none}}
+
+/* Compact property experience for phone screens. */
+@media(max-width:620px){
+  .property-grid .property-card{display:grid;grid-template-columns:118px minmax(0,1fr);min-height:190px}
+  .property-grid .property-image{height:100%;min-height:190px;aspect-ratio:auto}
+  .property-grid .property-placeholder span{font-size:82px}
+  .property-grid .property-body{padding:15px 14px}
+  .property-grid .property-meta{display:grid;gap:2px;font-size:9px}
+  .property-grid .property-body h3{font-size:19px;line-height:1.15;margin-top:7px}
+  .property-grid .property-facts{gap:6px;flex-wrap:wrap;font-size:10px;margin-top:9px}
+  .property-grid .property-facts span+span{padding-left:6px}
+  .property-grid .property-foot{display:grid;gap:3px;margin-top:11px;padding-top:9px}
+  .property-grid .property-foot strong{font-size:15px}
+  .property-grid .property-foot a{font-size:10px}
+  .property-grid .property-status,.property-grid .property-featured{top:8px;padding:4px 6px;font-size:8px}
+  .property-grid .property-status{left:8px}.property-grid .property-featured{right:8px}
+
+  .property-single-page .property-detail-hero{padding:20px 0 32px}
+  .property-single-page .property-detail-grid{gap:22px}
+  .property-single-page .property-detail-image{aspect-ratio:16/9;border-radius:14px}
+  .property-single-page .property-placeholder span{font-size:110px}
+  .property-single-page .property-detail-copy .eyebrow{font-size:10px;margin-bottom:8px}
+  .property-single-page .property-detail-copy h1{font-size:34px;line-height:1.03}
+  .property-single-page .property-price{font-size:21px;margin:10px 0}
+  .property-single-page .property-detail-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:13px 0;margin:10px 0 16px}
+  .property-single-page .property-detail-facts div{padding:0 8px;text-align:center}
+  .property-single-page .property-detail-facts div+div{border-left:1px solid var(--line)}
+  .property-single-page .property-detail-facts b{font-size:18px;line-height:1.1}
+  .property-single-page .property-detail-facts span{font-size:8px}
+  .property-single-page .property-detail-copy>.btn{width:100%;min-height:44px;padding:10px 16px;font-size:14px}
+  .property-single-page .property-overview-section{padding:38px 0 44px}
+  .property-single-page .property-description{gap:14px}
+  .property-single-page .property-description .eyebrow{margin-bottom:7px}
+  .property-single-page .property-description .h2{font-size:27px}
+  .property-single-page .property-description>p{font-size:15px;line-height:1.58}
+  .property-single-page .ftr{padding-top:44px}
+  .property-single-page .ftr-grid{gap:28px;padding-bottom:38px}
+}
