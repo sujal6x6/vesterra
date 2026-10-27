@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Script from "next/script";
+import { propertyImageFor } from "@/lib/property-images";
 
 export function PublicLayout({ children, current, pageClass = "" }: { children:ReactNode; current?:string; pageClass?:string }) {
   const nav = [["/about","About"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
@@ -29,8 +30,9 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
 }
 
 export function PropertyCard({ property }: { property:any }) {
+  const imageUrl = propertyImageFor(property);
   return <article className="property-card reveal in">
-    <a className="property-image" href={`/property/${property.slug}`}>{property.imageUrl?<img src={property.imageUrl} alt={property.title}/>:<div className="property-placeholder"><span>V</span></div>}<span className="property-status">{property.status}</span>{property.featured?<span className="property-featured">Featured</span>:null}</a>
+    <a className="property-image" href={`/property/${property.slug}`}>{imageUrl?<img src={imageUrl} alt={`${property.title} — representative architectural visual`}/>:<div className="property-placeholder"><span>V</span></div>}<span className="property-status">{property.status}</span>{property.featured?<span className="property-featured">Featured</span>:null}{imageUrl?<span className="property-visual-note">Representative visual</span>:null}</a>
     <div className="property-body"><div className="property-meta"><span>{property.propertyType}</span><span>{property.location}</span></div><h3><a href={`/property/${property.slug}`}>{property.title}</a></h3><div className="property-facts">{property.bedrooms>0?<span>{property.bedrooms} Beds</span>:null}{property.bathrooms>0?<span>{property.bathrooms} Baths</span>:null}{property.area?<span>{property.area}</span>:null}</div><div className="property-foot"><strong>{property.price}</strong><a href={`/property/${property.slug}`}>View details →</a></div></div>
   </article>;
 }

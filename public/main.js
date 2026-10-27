@@ -197,19 +197,21 @@ async function loadFeaturedProperties() {
   const section = document.getElementById('featuredPropertiesSection');
   if (!grid || !section) return;
   try {
-    const response = await fetch('/api/public/properties?featured=1', { cache: 'no-store' });
+    const response = await fetch('/api/public/properties', { cache: 'no-store' });
     if (!response.ok) return;
     const { properties = [] } = await response.json();
-    properties.forEach((property) => {
+    const homepageProperties = [...properties].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))).slice(0, 3);
+    homepageProperties.forEach((property) => {
       const article = document.createElement('article');
       article.className = 'property-card reveal in';
       const imageLink = document.createElement('a');
       imageLink.className = 'property-image';
       imageLink.href = `/property/${encodeURIComponent(property.slug)}`;
-      if (property.imageUrl) {
+      const imageUrl = propertyImageFor(property);
+      if (imageUrl) {
         const img = document.createElement('img');
-        img.src = property.imageUrl;
-        img.alt = property.title;
+        img.src = imageUrl;
+        img.alt = `${property.title} — representative architectural visual`;
         img.loading = 'lazy';
         imageLink.append(img);
       } else {
@@ -224,6 +226,12 @@ async function loadFeaturedProperties() {
       status.className = 'property-status';
       status.textContent = property.status;
       imageLink.append(status);
+      if (imageUrl) {
+        const visualNote = document.createElement('span');
+        visualNote.className = 'property-visual-note';
+        visualNote.textContent = 'Representative visual';
+        imageLink.append(visualNote);
+      }
       const body = document.createElement('div');
       body.className = 'property-body';
       const meta = document.createElement('div'); meta.className = 'property-meta';
@@ -241,10 +249,19 @@ async function loadFeaturedProperties() {
       article.append(imageLink, body);
       grid.append(article);
     });
-    section.hidden = properties.length === 0;
+    section.hidden = homepageProperties.length === 0;
   } catch (_) {
     // The hand-authored home page remains complete without dynamic listings.
   }
+}
+
+function propertyImageFor(property) {
+  const images = {
+    'aerocity-courtyard-residence': '/assets/properties/aerocity-courtyard-residence.png',
+    'canal-view-residences': '/assets/properties/canal-view-residences.png',
+    'airport-district-offices': '/assets/properties/airport-district-offices.png',
+  };
+  return property.imageUrl || images[property.slug] || '';
 }
 
 async function loadPublicContent() {

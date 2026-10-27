@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getDb } from "@/db";
 import { properties } from "@/db/schema";
 import { PublicLayout } from "@/components/public-layout";
+import { propertyImageFor } from "@/lib/property-images";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function PropertyPage({ params }:{ params:Promise<{slug:str
   const { slug } = await params;
   const property = await findProperty(slug);
   if (!property) notFound();
+  const imageUrl = propertyImageFor(property);
 
   const facts = [
     property.bedrooms > 0 ? { value:String(property.bedrooms), label:"Bedrooms" } : null,
@@ -36,10 +38,10 @@ export default async function PropertyPage({ params }:{ params:Promise<{slug:str
   return <PublicLayout current="/properties" pageClass="property-single-page property-showcase-page">
     <section className="property-showcase">
       <div className="property-showcase-media">
-        {property.imageUrl
-          ? <img src={property.imageUrl} alt={property.title}/>
+        {imageUrl
+          ? <img src={imageUrl} alt={`${property.title} — representative architectural visual`}/>
           : <div className="property-cinematic-placeholder"><span>V</span></div>}
-        <span className="property-photo-label">{property.location}</span>
+        <span className="property-photo-label">Representative visual · {property.location}</span>
       </div>
       <div className="property-showcase-shade"/>
       <div className="property-orbit property-orbit-one"/><div className="property-orbit property-orbit-two"/>
