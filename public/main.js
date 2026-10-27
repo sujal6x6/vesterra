@@ -54,6 +54,36 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: .14 });
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
+function initAutoSwipeRails() {
+  const mobile = window.matchMedia('(max-width: 620px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll('.exp-list, .why-grid, .public-gallery, .public-reviews, .process').forEach((rail) => {
+    if (rail.dataset.autoSwipeReady) return;
+    rail.dataset.autoSwipeReady = 'true';
+
+    let visible = false;
+    let pauseUntil = 0;
+    let current = 0;
+
+    const cards = () => [...rail.children].filter((card) => !card.classList.contains('proc-line') && !card.hidden);
+    const pauseForInteraction = () => { pauseUntil = Date.now() + 9000; };
+    ['pointerdown', 'touchstart', 'wheel'].forEach((eventName) => rail.addEventListener(eventName, pauseForInteraction, { passive: true }));
+
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: .45 }).observe(rail);
+
+    window.setInterval(() => {
+      const items = cards();
+      if (!mobile.matches || reducedMotion.matches || !visible || document.hidden || items.length < 2 || Date.now() < pauseUntil) return;
+      const nearest = items.reduce((best, card, index) => Math.abs(card.offsetLeft - rail.scrollLeft) < Math.abs(items[best].offsetLeft - rail.scrollLeft) ? index : best, 0);
+      current = nearest >= items.length - 1 ? 0 : nearest + 1;
+      rail.scrollTo({ left: items[current].offsetLeft - rail.offsetLeft, behavior: 'smooth' });
+    }, 3400);
+  });
+}
+
+initAutoSwipeRails();
+
 document.getElementById('contact-form')?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -135,7 +165,7 @@ async function loadWebsiteSettings() {
   }
 }
 
-loadPublicContent();
+loadPublicContent().finally(initAutoSwipeRails);
 loadFeaturedProperties();
 
 const requestedProperty = new URLSearchParams(location.search).get('property');
