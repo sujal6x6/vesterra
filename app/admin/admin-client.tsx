@@ -57,19 +57,21 @@ function SettingsView({data,setData,active,setActive,request,notify}:{data:Setti
   const set=(group:keyof SettingsData,key:string,value:string|boolean)=>setData({...data,[group]:{...data[group],[key]:value}} as SettingsData);
   const save=async(e:React.FormEvent)=>{e.preventDefault();await request("/api/admin/settings",{method:"PUT",body:JSON.stringify({settings:data})});notify("Website settings saved.")};
   return <form className="panel form-panel" onSubmit={save}>
-    <div className="settings-tabs">{["hero","contact","social","seo","integrations"].map(id=><button type="button" key={id} className={active===id?"active":""} onClick={()=>setActive(id)}>{id[0].toUpperCase()+id.slice(1)}</button>)}</div>
+    <div className="settings-tabs">{[{id:"hero",label:"Hero"},{id:"contact",label:"Contact"},{id:"social",label:"Social"},{id:"seo",label:"SEO"},{id:"crm",label:"CRM"},{id:"meta",label:"Meta Ads"}].map(item=><button type="button" key={item.id} className={active===item.id?"active":""} onClick={()=>setActive(item.id)}>{item.label}</button>)}</div>
     <div className="form-grid">
       {active==="hero"&&<><Field label="Small heading" value={data.hero.eyebrow} onChange={v=>set("hero","eyebrow",v)}/><Field label="Hero card title" value={data.hero.cardTitle} onChange={v=>set("hero","cardTitle",v)}/><Field label="Main headline" full area value={data.hero.title} onChange={v=>set("hero","title",v)}/><Field label="Hero message" full area value={data.hero.lead} onChange={v=>set("hero","lead",v)}/><Field label="Hero card text" full value={data.hero.cardText} onChange={v=>set("hero","cardText",v)}/></>}
       {active==="contact"&&<><Field label="Phone" value={data.contact.phone} onChange={v=>set("contact","phone",v)}/><Field label="WhatsApp number" value={data.contact.whatsapp} onChange={v=>set("contact","whatsapp",v)}/><Field label="Office address" full area value={data.contact.address} onChange={v=>set("contact","address",v)}/></>}
       {active==="social"&&<><Field label="Instagram URL" full value={data.social.instagram} onChange={v=>set("social","instagram",v)}/><Field label="Facebook URL" full value={data.social.facebook} onChange={v=>set("social","facebook",v)}/><Field label="WhatsApp channel URL" full value={data.social.whatsappChannel} onChange={v=>set("social","whatsappChannel",v)}/></>}
       {active==="seo"&&<><Field label="SEO title" full value={data.seo.title} onChange={v=>set("seo","title",v)}/><Field label="SEO description" full area value={data.seo.description} onChange={v=>set("seo","description",v)}/></>}
-      {active==="integrations"&&<>
+      {active==="crm"&&<>
         <div className="integration-heading full"><h3>CRM lead delivery</h3><p>Send each website enquiry to your CRM through a secure HTTPS webhook.</p></div>
         <Toggle label="Enable CRM webhook" checked={data.integrations.crmEnabled} onChange={v=>set("integrations","crmEnabled",v)}/>
         <Field label="CRM / integration name" value={data.integrations.crmProvider} onChange={v=>set("integrations","crmProvider",v)} placeholder="Zoho, HubSpot, LeadSquared…"/>
         <Field label="Webhook URL" full value={data.integrations.crmWebhookUrl} onChange={v=>set("integrations","crmWebhookUrl",v)} placeholder="https://…"/>
         <Field label="Bearer / API token" full secret value={data.integrations.crmApiToken} onChange={v=>set("integrations","crmApiToken",v)} placeholder="Stored privately and never sent to website visitors"/>
         <Field label="Lead source label" full value={data.integrations.crmLeadSource} onChange={v=>set("integrations","crmLeadSource",v)}/>
+      </>}
+      {active==="meta"&&<>
         <div className="integration-heading full"><h3>Meta Ads tracking</h3><p>Add the browser Pixel now, and optionally use Conversions API for server-side Lead events. Enable only after your consent and privacy setup is ready.</p></div>
         <Toggle label="Enable Meta Pixel" checked={data.integrations.metaPixelEnabled} onChange={v=>set("integrations","metaPixelEnabled",v)}/>
         <Field label="Meta Pixel ID" value={data.integrations.metaPixelId} onChange={v=>set("integrations","metaPixelId",v)} placeholder="Numeric Pixel ID"/>
