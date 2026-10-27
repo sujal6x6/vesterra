@@ -10,7 +10,7 @@ export async function GET() {
   const auth = await requireAdminApi();
   if (auth.error) return auth.error;
   const rows = await getDb().select().from(siteSettings).where(eq(siteSettings.id, "site")).limit(1);
-  return Response.json({ settings: rows[0]?.data ? { ...siteDefaults, ...JSON.parse(rows[0].data) } : siteDefaults });
+  return Response.json({ settings: rows[0]?.data ? deepMerge(siteDefaults, JSON.parse(rows[0].data)) : siteDefaults });
 }
 
 export async function PUT(request: Request) {
@@ -24,4 +24,14 @@ export async function PUT(request: Request) {
     set: { data, updatedAt: new Date().toISOString() },
   });
   return Response.json({ settings: body.settings });
+}
+
+function deepMerge(base: Record<string, any>, saved: Record<string, any>) {
+  const result = { ...base };
+  for (const [key, value] of Object.entries(saved || {})) {
+    result[key] = value && typeof value === "object" && !Array.isArray(value)
+      ? deepMerge((base[key] as Record<string, any>) || {}, value as Record<string, any>)
+      : value;
+  }
+  return result;
 }

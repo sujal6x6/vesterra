@@ -16,10 +16,14 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
     <footer className="ftr"><div className="wrap ftr-grid">
       <div><a href="/" className="brand footer-brand"><img src="/assets/vesterra-logo.jpeg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></a><p>Building legacies. Creating futures.</p></div>
       <div><h4>Explore</h4><a href="/about">About</a><a href="/services">Our Verticals</a><a href="/properties">Properties</a><a href="/contact">Contact</a></div>
-      <div><h4>Connect</h4><a data-social="instagram" href="https://www.instagram.com/vesterragroup" target="_blank" rel="noopener">Instagram</a><a data-social="facebook" href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></div>
+      <div><h4>Connect</h4><div className="social-links">
+        <a className="social-link" data-social="instagram" href="https://www.instagram.com/vesterragroup" target="_blank" rel="noopener" aria-label="Vesterra on Instagram"><span className="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span>Instagram</span></a>
+        <a className="social-link" data-social="facebook" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Vesterra on Facebook"><span className="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.2 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H8V13h2.8v8h3.4Z"/></svg></span><span>Facebook</span></a>
+        <a className="social-link" data-social="whatsappChannel" href="https://whatsapp.com/channel/0029VbE8aLwAO7RLOf1tpO0K" target="_blank" rel="noopener" aria-label="Vesterra WhatsApp channel"><span className="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4.1A8 8 0 1 1 20 11.6Z"/><path d="M8.6 8.2c.3 3.3 2.1 5.1 5.4 5.8l1.2-1.2c.2-.2.5-.2.7-.1l2 .9M8.7 8.4 7.8 6.5c-.1-.3 0-.5.2-.7l1.1-1"/></svg></span><span>WhatsApp</span></a>
+      </div></div>
       <div><h4>Contact</h4><a data-phone-link data-phone-text href="tel:+919878708190">+91 98787 08190</a><p id="footerAddress">SCO 254, 6th Floor, Mohali Citi Centre 2, Aerocity, F Block</p></div>
     </div><div className="wrap ftr-bot"><span>© {new Date().getFullYear()} Vesterra Group. All rights reserved.</span><a href="#top">Back to top ↑</a></div></footer>
-    <a className="wa" id="whatsappLink" href="https://wa.me/919878708190" target="_blank" rel="noopener" aria-label="Chat with Vesterra Group on WhatsApp">WA</a>
+    <a className="wa" id="whatsappLink" href="https://wa.me/919878708190" target="_blank" rel="noopener" aria-label="Chat with Vesterra Group on WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4.1A8 8 0 1 1 20 11.6Z"/><path d="M8.6 8.2c.3 3.3 2.1 5.1 5.4 5.8l1.2-1.2c.2-.2.5-.2.7-.1l2 .9M8.7 8.4 7.8 6.5c-.1-.3 0-.5.2-.7l1.1-1"/></svg></a>
     <Script src="/main.js" strategy="afterInteractive" />
   </div>;
 }

@@ -20,4 +20,16 @@ export const siteDefaults = {
     title: "Vesterra Group | Building Legacies. Creating Futures.",
     description: "Vesterra Group brings together real estate, hospitality and investments with a long-term perspective.",
   },
+  integrations: {
+    crmEnabled: false,
+    crmProvider: "Custom webhook",
+    crmWebhookUrl: "",
+    crmApiToken: "",
+    crmLeadSource: "Vesterra website",
+    metaPixelEnabled: false,
+    metaPixelId: "",
+    metaConversionsEnabled: false,
+    metaAccessToken: "",
+    metaTestEventCode: "",
+  },
 };

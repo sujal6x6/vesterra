@@ -103,6 +103,7 @@ document.getElementById('contact-form')?.addEventListener('submit', async (event
     form.reset();
     status.textContent = 'Thank you. Your enquiry has been sent to Vesterra Group.';
     button.textContent = 'Enquiry Sent';
+    if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: String(data.get('interest') || 'General enquiry') });
   } catch (error) {
     status.textContent = error.message || 'Could not send your enquiry. Please call or WhatsApp us.';
     button.textContent = 'Try Again';
@@ -122,6 +123,7 @@ async function loadWebsiteSettings() {
     const hero = settings.hero || {};
     const contact = settings.contact || {};
     const social = settings.social || {};
+    const integrations = settings.integrations || {};
     const setText = (id, value) => { const el = document.getElementById(id); if (el && value) el.textContent = value; };
     setText('heroEyebrow', hero.eyebrow);
     setText('heroLead', hero.lead);
@@ -160,9 +162,22 @@ async function loadWebsiteSettings() {
     if (location.pathname === '/' && settings.seo?.title) document.title = settings.seo.title;
     const description = document.querySelector('meta[name="description"]');
     if (location.pathname === '/' && description && settings.seo?.description) description.content = settings.seo.description;
+    if (integrations.metaPixelEnabled && /^\d{5,24}$/.test(String(integrations.metaPixelId || ''))) installMetaPixel(String(integrations.metaPixelId));
   } catch (_) {
     // The authored defaults remain visible if settings are temporarily unavailable.
   }
+}
+
+function installMetaPixel(pixelId) {
+  if (typeof window.fbq === 'function') return;
+  const fbq = function () { fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments); };
+  fbq.queue = []; fbq.loaded = true; fbq.version = '2.0'; window.fbq = fbq;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+  document.head.append(script);
+  fbq('init', pixelId);
+  fbq('track', 'PageView');
 }
 
 loadPublicContent().finally(initAutoSwipeRails);
