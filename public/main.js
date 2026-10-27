@@ -58,7 +58,7 @@ function initAutoSwipeRails() {
   const mobile = window.matchMedia('(max-width: 620px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  document.querySelectorAll('.exp-list, .why-grid, .public-gallery, .public-reviews, .process').forEach((rail) => {
+  document.querySelectorAll('.exp-list, .why-grid, .public-gallery, .public-reviews, .process, .property-grid').forEach((rail) => {
     if (rail.dataset.autoSwipeReady) return;
     rail.dataset.autoSwipeReady = 'true';
 
