@@ -39,6 +39,7 @@ export default async function PropertyPage({ params }:{ params:Promise<{slug:str
         {property.imageUrl
           ? <img src={property.imageUrl} alt={property.title}/>
           : <div className="property-cinematic-placeholder"><span>V</span></div>}
+        <span className="property-photo-label">{property.location}</span>
       </div>
       <div className="property-showcase-shade"/>
       <div className="property-orbit property-orbit-one"/><div className="property-orbit property-orbit-two"/>

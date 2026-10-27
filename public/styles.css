@@ -9,6 +9,7 @@
   --f-head:"Outfit",ui-rounded,"Segoe UI",system-ui,sans-serif;--f-body:"Manrope","Segoe UI",system-ui,sans-serif;--wrap:1200px;
   color-scheme:light;box-sizing:border-box;
 }
+
 :root[data-theme="dark"]{--bg:#0d0e10;--surface:#15171a;--soft:#121316;--soft-2:#1a1813;--neutral:#101114;--ink:#e9e6df;--muted:#aaa8a1;--faint:#7d7d79;--heading:#f2d485;--accent:#e8bd63;--line:#2c2b27;--line-strong:#474235;--header-bg:rgba(13,14,16,.9);--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);--shadow-up:0 2px 4px rgba(0,0,0,.35),0 16px 36px rgba(0,0,0,.35);color-scheme:dark}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:86px}html,body{max-width:100%;overflow-x:hidden}
@@ -111,6 +112,7 @@ h1,h2,h3,h4{font-family:var(--f-head);color:var(--heading);margin:0;line-height:
 /* Immersive property showcase */
 .property-showcase{position:relative;min-height:clamp(650px,calc(100vh - 86px),880px);overflow:hidden;background:#090a0b;color:#fff;isolation:isolate}
 .property-showcase-media,.property-showcase-shade{position:absolute;inset:0}.property-showcase-media{z-index:-3;animation:property-image-in 1.35s cubic-bezier(.18,.72,.2,1) both}.property-showcase-media img{width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.04)}
+.property-photo-label{position:absolute;right:22px;bottom:22px;z-index:2;border:1px solid rgba(255,255,255,.42);border-radius:999px;padding:7px 11px;background:rgba(8,9,10,.45);backdrop-filter:blur(10px);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .property-cinematic-placeholder{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 66% 34%,#2d281d 0,#171612 32%,#08090a 72%)}.property-cinematic-placeholder span{font:600 clamp(260px,39vw,610px)/.75 var(--f-head);color:transparent;-webkit-text-stroke:1px rgba(229,184,84,.28);animation:property-mark-breathe 7s ease-in-out infinite}
 .property-showcase-shade{z-index:-2;background:linear-gradient(90deg,rgba(5,6,7,.88) 0%,rgba(5,6,7,.54) 48%,rgba(5,6,7,.15) 100%),linear-gradient(0deg,rgba(4,5,6,.86),transparent 50%)}
 .property-showcase-content{min-height:inherit;padding:36px 0 64px;display:flex;flex-direction:column;justify-content:space-between}.property-showcase-top{display:flex;align-items:center;justify-content:space-between;gap:20px;animation:property-rise .75s .15s both}.property-back{color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em}.property-back:hover{color:var(--gold)}.property-showcase-status{border:1px solid rgba(255,255,255,.46);border-radius:999px;padding:7px 12px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;backdrop-filter:blur(8px)}
@@ -172,4 +174,27 @@ h1,h2,h3,h4{font-family:var(--f-head);color:var(--heading);margin:0;line-height:
   .property-enquiry{padding:52px 0}.property-enquiry-inner{gap:24px}.property-enquiry h2{font-size:39px}.property-enquiry-action p{font-size:14px;margin-bottom:18px}
 
   .ftr{padding-top:38px}.ftr-grid{gap:24px 20px;padding-bottom:32px}.footer-brand{margin-bottom:12px}.footer-brand img{width:50px;height:50px}.ftr h4{font-size:14px;margin-bottom:12px}.ftr-grid>div>a:not(.brand){font-size:12px;margin:6px 0}.ftr-grid>div>p{font-size:12px}.ftr-bot{padding:16px 0;font-size:10px}.wa{width:48px;height:48px}
+}
+
+/* Mobile property presentation: a consistent photo window with a clean editorial detail card. */
+@media(max-width:620px){
+  .property-showcase-page .property-showcase{min-height:0;background:#090a0b;padding:0 0 27px;overflow:hidden}
+  .property-showcase-page .property-showcase-media{position:relative;inset:auto;z-index:0;width:auto;height:auto;aspect-ratio:4/3;margin:0 10px;border-radius:0 0 22px 22px;overflow:hidden;background:#111;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .property-showcase-page .property-showcase-media img{width:100%;height:100%;object-fit:cover;object-position:center center;filter:saturate(.9) contrast(1.03)}
+  .property-showcase-page .property-cinematic-placeholder{height:100%}
+  .property-showcase-page .property-photo-label{right:12px;bottom:12px;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 9px;font-size:8px}
+  .property-showcase-page .property-showcase-shade{inset:0 10px auto;height:calc((100vw - 20px) * .75);z-index:1;border-radius:0 0 22px 22px;background:linear-gradient(180deg,rgba(4,5,6,.58),transparent 42%,rgba(4,5,6,.12))}
+  .property-showcase-page .property-orbit{display:none}
+  .property-showcase-page .property-showcase-content{min-height:0;padding:23px 0 0;display:block}
+  .property-showcase-page .property-showcase-top{position:absolute;z-index:3;top:17px;left:16px;right:16px}.property-showcase-page .property-back{font-size:11px;text-shadow:0 2px 12px #000}.property-showcase-page .property-showcase-status{padding:6px 9px;font-size:8px;background:rgba(5,6,7,.42)}
+  .property-showcase-page .property-kicker{font-size:9px;letter-spacing:.13em;margin-bottom:9px}
+  .property-showcase-page .property-showcase-copy h1{font-size:clamp(39px,11.7vw,52px);line-height:.93;max-width:10.5ch}
+  .property-showcase-page .property-showcase-bottom{margin-top:17px;padding-top:14px}.property-showcase-page .property-showcase-bottom strong{font-size:24px}.property-showcase-page .property-showcase-bottom a span{width:32px;height:32px}
+  .property-showcase-page .property-fact-dock{border:0;padding:0 10px 10px;background:var(--bg)}
+  .property-showcase-page .property-fact-row{border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface)}
+  .property-showcase-page .property-fact{min-height:72px;padding:15px 13px}.property-showcase-page .property-fact:first-child,.property-showcase-page .property-fact:nth-child(odd){border-left:0}.property-showcase-page .property-fact:nth-child(even){border-right:0}
+  .property-showcase-page .property-story-section{padding-top:45px}
+
+  .properties-index-page .property-grid .property-card{grid-template-columns:minmax(132px,42%) minmax(0,1fr);min-height:205px}
+  .properties-index-page .property-grid .property-image{min-height:205px}.properties-index-page .property-grid .property-image img{object-position:center center}
 }
