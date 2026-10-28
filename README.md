@@ -64,3 +64,5 @@ Sign in locally through:
 
 The local and hosted D1 databases are separate. Schema changes live in
 `db/schema.ts` and generated migrations are under `drizzle/`.
+
+Deployment source: Cloudflare Workers via the `main` branch.
