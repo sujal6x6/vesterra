@@ -17,7 +17,7 @@ export const siteDefaults = {
     whatsappChannel: "https://whatsapp.com/channel/0029VbE8aLwAO7RLOf1tpO0K",
   },
   seo: {
-    siteUrl: "https://vesterra-group.lectures746872.chatgpt.site",
+    siteUrl: "https://vesterragroup.in",
     title: "Vesterra Group | Building Legacies. Creating Futures.",
     description: "Vesterra Group brings together real estate, hospitality and investments with a long-term perspective.",
     keywords: "Vesterra Group, real estate Mohali, property Mohali, Aerocity property, hospitality, investments",
