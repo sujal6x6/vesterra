@@ -8,9 +8,13 @@ export async function POST(request:Request) {
   const password = String(form.get("password") || "");
   const returnTo = safeReturn(String(form.get("return_to") || "/admin"));
   if (!await verifyAdminPassword(password)) return Response.redirect(new URL(`/admin/login?error=1&return_to=${encodeURIComponent(returnTo)}`,request.url),303);
-  const response = Response.redirect(new URL(returnTo,request.url),303);
-  response.headers.append("set-cookie",adminSessionCookie(await createAdminSession()));
-  return response;
+  return new Response(null,{
+    status:303,
+    headers:{
+      location:new URL(returnTo,request.url).toString(),
+      "set-cookie":adminSessionCookie(await createAdminSession()),
+    },
+  });
 }
 
 function safeReturn(value:string) { return value.startsWith("/") && !value.startsWith("//") ? value : "/admin"; }
