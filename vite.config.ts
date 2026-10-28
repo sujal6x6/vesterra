@@ -6,15 +6,16 @@ import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
 import { sites } from "./scripts/vite/sites-vite-plugin";
 import { connectorPreview } from "./scripts/vite/connector-preview-plugin.mjs";
 
-const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "00000000-0000-4000-8000-000000000000";
+const PRODUCTION_D1_DATABASE_ID = "904db041-f727-45ef-baee-fbe93464c1de";
+const PRODUCTION_D1_DATABASE_NAME = "vesterra-db";
 
 const { d1, r2 } = hostingConfig;
 const cloudflareD1DatabaseId =
   process.env.CLOUDFLARE_D1_DATABASE_ID?.trim() ||
-  SITE_CREATOR_PLACEHOLDER_DATABASE_ID;
+  PRODUCTION_D1_DATABASE_ID;
 const cloudflareD1DatabaseName =
-  process.env.CLOUDFLARE_D1_DATABASE_NAME?.trim() || "site-creator-d1";
+  process.env.CLOUDFLARE_D1_DATABASE_NAME?.trim() ||
+  PRODUCTION_D1_DATABASE_NAME;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
@@ -23,6 +24,8 @@ const managedLinux = readExecutionProfile() === "managed-linux";
 const localBindingConfig = {
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
+  // Dashboard-managed secrets must survive source deployments.
+  keep_vars: true,
   d1_databases: d1
     ? [
         {
@@ -66,6 +69,16 @@ export default defineConfig(async ({ command }) => {
         inspectorPort: false,
         config: {
           ...localBindingConfig,
+          ...(command === "build"
+            ? {
+                routes: [
+                  {
+                    pattern: "vesterragroup.in",
+                    custom_domain: true,
+                  },
+                ],
+              }
+            : {}),
           ...(command === "serve"
             ? {
                 services: [

@@ -5,15 +5,15 @@ Cloudflare D1 persistence.
 
 ## Cloudflare deployment
 
-Cloudflare Git builds must define these build-time variables before running
-`npm run build`:
+The production D1 binding is included in the generated Worker configuration.
+These optional build-time variables can override it when deploying another
+environment:
 
 - `CLOUDFLARE_D1_DATABASE_ID`: the real D1 database ID from the Cloudflare dashboard
-- `CLOUDFLARE_D1_DATABASE_NAME`: the D1 database name (defaults to `site-creator-d1`)
+- `CLOUDFLARE_D1_DATABASE_NAME`: the D1 database name
 
-The generated `dist/server/wrangler.json` receives those values during the
-build. Never commit a production database ID as a replacement for the local
-placeholder.
+The generated Worker configuration also keeps dashboard-managed secrets and
+the `vesterragroup.in` custom-domain route during source deployments.
 
 After creating the database, initialize it once:
 
