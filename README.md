@@ -3,6 +3,25 @@
 Full-stack Vesterra Group website with a protected management dashboard and
 Cloudflare D1 persistence.
 
+## Cloudflare deployment
+
+Cloudflare Git builds must define these build-time variables before running
+`npm run build`:
+
+- `CLOUDFLARE_D1_DATABASE_ID`: the real D1 database ID from the Cloudflare dashboard
+- `CLOUDFLARE_D1_DATABASE_NAME`: the D1 database name (defaults to `site-creator-d1`)
+
+The generated `dist/server/wrangler.json` receives those values during the
+build. Never commit a production database ID as a replacement for the local
+placeholder.
+
+After creating the database, initialize it once:
+
+```sh
+npx wrangler d1 execute <database-name> --remote --file=drizzle/0000_bizarre_mysterio.sql
+npx wrangler d1 execute <database-name> --remote --file=drizzle/0001_plain_vance_astro.sql
+```
+
 ## Admin
 
 Open `/admin` and sign in with the ChatGPT account allowed to access the Site.
