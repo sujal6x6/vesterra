@@ -2,13 +2,17 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { siteSettings } from "@/db/schema";
 import { siteDefaults } from "@/lib/site-defaults";
+import { deepMerge } from "@/lib/deep-merge";
+import { isJsonObject } from "@/lib/request-json";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const rows = await getDb().select().from(siteSettings).where(eq(siteSettings.id, "site")).limit(1);
-  const saved = rows[0]?.data ? JSON.parse(rows[0].data) : {};
+  const parsed:unknown = rows[0]?.data ? JSON.parse(rows[0].data) : {};
+  const saved = isJsonObject(parsed) ? parsed : {};
   const merged = deepMerge(siteDefaults, saved);
+  if (merged.seo.ogImage === "/assets/properties/vesterra-hero-courtyard.png") merged.seo.ogImage = "/assets/properties/vesterra-hero-courtyard.webp";
   const settings = {
     hero: merged.hero,
     contact: merged.contact,
@@ -20,14 +24,4 @@ export async function GET() {
     },
   };
   return Response.json({ settings }, { headers: { "cache-control": "no-store" } });
-}
-
-function deepMerge(base: Record<string, any>, saved: Record<string, any>) {
-  const result = { ...base };
-  for (const [key, value] of Object.entries(saved || {})) {
-    result[key] = value && typeof value === "object" && !Array.isArray(value)
-      ? deepMerge((base[key] as Record<string, any>) || {}, value)
-      : value;
-  }
-  return result;
 }

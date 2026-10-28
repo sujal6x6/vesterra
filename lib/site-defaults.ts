@@ -23,7 +23,7 @@ export const siteDefaults = {
     keywords: "Vesterra Group, real estate Mohali, property Mohali, Aerocity property, hospitality, investments",
     ogTitle: "Vesterra Group | Building Legacies. Creating Futures.",
     ogDescription: "Thoughtful opportunities across real estate, hospitality and investments.",
-    ogImage: "/assets/properties/vesterra-hero-courtyard.png",
+    ogImage: "/assets/properties/vesterra-hero-courtyard.webp",
     twitterHandle: "",
     robotsIndex: true,
     robotsFollow: true,

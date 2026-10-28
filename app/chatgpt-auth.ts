@@ -21,11 +21,16 @@ const CALLBACK_PATH = "/callback";
 
 export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
   const requestHeaders = await headers();
+  const host = requestHost(requestHeaders);
+  if (isStandaloneHost(host)) {
+    const session = await readAdminSession(requestHeaders.get("cookie"));
+    return session ? sessionUser(session) : null;
+  }
   const userId = requestHeaders.get(USER_ID_HEADER);
   const email = requestHeaders.get(USER_EMAIL_HEADER);
   if (!userId || !email) {
     const session = await readAdminSession(requestHeaders.get("cookie"));
-    return session ? { userId:`admin:${session.email.toLowerCase()}`, email:session.email, displayName:session.name, fullName:session.name } : null;
+    return session ? sessionUser(session) : null;
   }
 
   const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
@@ -49,9 +54,20 @@ export async function requireChatGPTUser(
   const user = await getChatGPTUser();
   if (user) return user;
   const requestHeaders = await headers();
-  const host = (requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "").split(":")[0].toLowerCase();
-  const standalone = host === "vesterragroup.in" || host === "www.vesterragroup.in" || host.endsWith(".workers.dev");
+  const standalone = isStandaloneHost(requestHost(requestHeaders));
   redirect(standalone || adminAuthConfigured() ? `/admin/login?return_to=${encodeURIComponent(safeRelativeReturnPath(returnTo))}` : chatGPTSignInPath(returnTo));
+}
+
+function requestHost(requestHeaders: Headers) {
+  return (requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "").split(":")[0].toLowerCase();
+}
+
+function isStandaloneHost(host: string) {
+  return host === "vesterragroup.in" || host === "www.vesterragroup.in" || host.endsWith(".workers.dev");
+}
+
+function sessionUser(session: { email:string; name:string }): ChatGPTUser {
+  return { userId:`admin:${session.email.toLowerCase()}`, email:session.email, displayName:session.name, fullName:session.name };
 }
 
 export function chatGPTSignInPath(returnTo: string): string {
