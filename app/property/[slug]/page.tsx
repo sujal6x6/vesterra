@@ -6,6 +6,7 @@ import { getDb } from "@/db";
 import { properties } from "@/db/schema";
 import { PublicLayout } from "@/components/public-layout";
 import { propertyImageFor } from "@/lib/property-images";
+import { absoluteSiteUrl, getSiteSettings, normaliseSiteUrl } from "@/lib/site-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -17,8 +18,11 @@ async function findProperty(slug:string) {
 export async function generateMetadata({ params }:{ params:Promise<{slug:string}> }):Promise<Metadata> {
   const { slug } = await params;
   const property = await findProperty(slug);
+  const { seo } = await getSiteSettings();
+  const siteUrl = normaliseSiteUrl(seo.siteUrl);
+  const imageUrl = property ? absoluteSiteUrl(propertyImageFor(property), siteUrl) : undefined;
   return property
-    ? { title:`${property.title} | Vesterra Group`, description:property.description.slice(0, 160) }
+    ? { title:property.title, description:property.description.slice(0, 160), alternates:{canonical:`/property/${property.slug}`}, openGraph:{type:"website",title:`${property.title} | Vesterra Group`,description:property.description.slice(0,160),url:`${siteUrl}/property/${property.slug}`,images:imageUrl?[{url:imageUrl,alt:property.title}]:undefined}, twitter:{card:"summary_large_image",title:property.title,description:property.description.slice(0,160),images:imageUrl?[imageUrl]:undefined} }
     : { title:"Property | Vesterra Group" };
 }
 
@@ -27,6 +31,9 @@ export default async function PropertyPage({ params }:{ params:Promise<{slug:str
   const property = await findProperty(slug);
   if (!property) notFound();
   const imageUrl = propertyImageFor(property);
+  const settings = await getSiteSettings();
+  const siteUrl = normaliseSiteUrl(settings.seo.siteUrl);
+  const listingSchema = {"@context":"https://schema.org","@type":"RealEstateListing",name:property.title,description:property.description,url:`${siteUrl}/property/${property.slug}`,image:absoluteSiteUrl(imageUrl,siteUrl),datePosted:property.createdAt,address:{"@type":"PostalAddress",addressLocality:property.location,addressRegion:"Punjab",addressCountry:"IN"}};
 
   const facts = [
     property.bedrooms > 0 ? { value:String(property.bedrooms), label:"Bedrooms" } : null,
@@ -35,7 +42,7 @@ export default async function PropertyPage({ params }:{ params:Promise<{slug:str
     { value:property.status, label:"Availability" },
   ].filter(Boolean) as Array<{value:string;label:string}>;
 
-  return <PublicLayout current="/properties" pageClass="property-single-page property-showcase-page">
+  return <PublicLayout current="/properties" pageClass="property-single-page property-showcase-page"><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(listingSchema).replace(/</g,"\\u003c")}}/>
     <section className="property-showcase">
       <div className="property-showcase-media">
         {imageUrl

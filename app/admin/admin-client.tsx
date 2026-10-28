@@ -1,18 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Building2, ExternalLink, Images, LayoutDashboard, MessageSquareText, Settings, Star } from "lucide-react";
+import { Building2, ExternalLink, Images, LayoutDashboard, MessageSquareText, Search, Settings, Star } from "lucide-react";
 
-type Tab = "dashboard" | "leads" | "properties" | "reviews" | "gallery" | "settings";
+type Tab = "dashboard" | "leads" | "properties" | "reviews" | "gallery" | "seo" | "settings";
 type Stats = { leadsNew:number; leadsTotal:number; propertiesPublished:number; reviewsPending:number; reviewsPublished:number; gallery:number };
 type Lead = { id:number; name:string; phone:string; interest:string; message:string; status:string; note:string; createdAt:string };
 type Property = { id:number; title:string; slug:string; location:string; propertyType:string; price:string; bedrooms:number; bathrooms:number; area:string; imageUrl:string; description:string; status:string; featured:boolean; published:boolean; createdAt:string };
 type Review = { id:number; name:string; title:string; message:string; rating:number; status:string; verified:boolean; createdAt:string };
 type Gallery = { id:number; type:string; url:string; title:string; caption:string; published:boolean };
-type SettingsData = { hero:{eyebrow:string;title:string;lead:string;cardTitle:string;cardText:string}; contact:{phone:string;whatsapp:string;address:string}; social:{instagram:string;facebook:string;whatsappChannel:string}; seo:{title:string;description:string}; integrations:{crmEnabled:boolean;crmProvider:string;crmWebhookUrl:string;crmApiToken:string;crmLeadSource:string;metaPixelEnabled:boolean;metaPixelId:string;metaConversionsEnabled:boolean;metaAccessToken:string;metaTestEventCode:string} };
+type SettingsData = { hero:{eyebrow:string;title:string;lead:string;cardTitle:string;cardText:string}; contact:{phone:string;whatsapp:string;address:string}; social:{instagram:string;facebook:string;whatsappChannel:string}; seo:{siteUrl:string;title:string;description:string;keywords:string;ogTitle:string;ogDescription:string;ogImage:string;twitterHandle:string;robotsIndex:boolean;robotsFollow:boolean;sitemapEnabled:boolean;includePropertyImages:boolean;googleVerification:string;bingVerification:string;localBusinessEnabled:boolean;businessName:string;businessType:string;businessPhone:string;priceRange:string;latitude:string;longitude:string}; integrations:{crmEnabled:boolean;crmProvider:string;crmWebhookUrl:string;crmApiToken:string;crmLeadSource:string;metaPixelEnabled:boolean;metaPixelId:string;metaConversionsEnabled:boolean;metaAccessToken:string;metaTestEventCode:string} };
 
 const nav = [
-  ["dashboard", "Dashboard", LayoutDashboard], ["leads", "Leads", MessageSquareText], ["properties", "Properties", Building2], ["reviews", "Reviews", Star], ["gallery", "Gallery", Images], ["settings", "Settings", Settings],
+  ["dashboard", "Dashboard", LayoutDashboard], ["leads", "Leads", MessageSquareText], ["properties", "Properties", Building2], ["reviews", "Reviews", Star], ["gallery", "Gallery", Images], ["seo", "SEO", Search], ["settings", "Settings", Settings],
 ] as const;
 
 export default function AdminClient({ user, signOutPath }: { user:string; signOutPath:string }) {
@@ -20,14 +20,14 @@ export default function AdminClient({ user, signOutPath }: { user:string; signOu
   const [leads,setLeads]=useState<Lead[]>([]); const [properties,setProperties]=useState<Property[]>([]); const [reviews,setReviews]=useState<Review[]>([]); const [gallery,setGallery]=useState<Gallery[]>([]); const [settings,setSettings]=useState<SettingsData|null>(null); const [settingsTab,setSettingsTab]=useState("hero");
   const notify=(message:string)=>{setToast(message);setTimeout(()=>setToast(""),2600)};
   const request=useCallback(async(url:string,options?:RequestInit)=>{const response=await fetch(url,{...options,headers:{"content-type":"application/json",...(options?.headers||{})}});const data=await response.json();if(!response.ok)throw new Error(data.error||"Request failed");return data},[]);
-  const load=useCallback(async(current:Tab)=>{setLoading(true);try{if(current==="dashboard")setStats((await request("/api/admin/dashboard")).stats);if(current==="leads")setLeads((await request("/api/admin/enquiries")).enquiries);if(current==="properties")setProperties((await request("/api/admin/properties")).properties);if(current==="reviews")setReviews((await request("/api/admin/reviews")).reviews);if(current==="gallery")setGallery((await request("/api/admin/gallery")).items);if(current==="settings")setSettings((await request("/api/admin/settings")).settings)}catch(error){notify(error instanceof Error?error.message:"Could not load data")}finally{setLoading(false)}},[request]);
+  const load=useCallback(async(current:Tab)=>{setLoading(true);try{if(current==="dashboard")setStats((await request("/api/admin/dashboard")).stats);if(current==="leads")setLeads((await request("/api/admin/enquiries")).enquiries);if(current==="properties")setProperties((await request("/api/admin/properties")).properties);if(current==="reviews")setReviews((await request("/api/admin/reviews")).reviews);if(current==="gallery")setGallery((await request("/api/admin/gallery")).items);if(current==="settings"||current==="seo")setSettings((await request("/api/admin/settings")).settings)}catch(error){notify(error instanceof Error?error.message:"Could not load data")}finally{setLoading(false)}},[request]);
   useEffect(()=>{load(tab)},[tab,load]);
-  const titles:Record<Tab,[string,string]>={dashboard:["Dashboard","Your daily snapshot for listings, leads and website content."],leads:["Leads","Website enquiries that need a response."],properties:["Properties","Publish and manage the properties shown on the website."],reviews:["Reviews","Approve, reject and manage client feedback."],gallery:["Website Media","Add and manage photos or videos for the website."],settings:["Website Settings","Update the content visitors see on the website."]};
+  const titles:Record<Tab,[string,string]>={dashboard:["Dashboard","Your daily snapshot for listings, leads and website content."],leads:["Leads","Website enquiries that need a response."],properties:["Properties","Publish and manage the properties shown on the website."],reviews:["Reviews","Approve, reject and manage client feedback."],gallery:["Website Media","Add and manage photos or videos for the website."],seo:["SEO & Discovery","Control how Vesterra appears in search results and social shares."],settings:["Website Settings","Update the content visitors see on the website."]};
   return <div className="admin-shell">
     <aside className="admin-side"><a className="admin-logo" href="/" target="_blank"><img src="/assets/vesterra-logo.jpeg" alt="Vesterra"/><span><strong>Vesterra</strong><small>Admin</small></span></a><nav className="admin-nav">{nav.map(([id,label,Icon])=><button key={id} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon/><span>{label}</span>{id==="leads"&&stats?.leadsNew?<b className="nav-count">{stats.leadsNew}</b>:null}</button>)}</nav><div className="admin-side-foot"><div className="admin-user">{user}</div><a href={signOutPath}>Sign out</a></div></aside>
     <main className="admin-main"><header className="admin-top"><div><h1>{titles[tab][0]}</h1><p>{titles[tab][1]}</p></div><div className="top-actions"><a className="adm-btn" href="/" target="_blank">View website <ExternalLink size={16}/></a></div></header>
       {loading?<div className="panel loading">Loading…</div>:<>
-        {tab==="dashboard"&&<Dashboard stats={stats} go={setTab}/>} {tab==="leads"&&<Leads items={leads} reload={()=>load("leads")} request={request} notify={notify}/>} {tab==="properties"&&<PropertiesView items={properties} reload={()=>load("properties")} request={request} notify={notify}/>} {tab==="reviews"&&<Reviews items={reviews} reload={()=>load("reviews")} request={request} notify={notify}/>} {tab==="gallery"&&<GalleryView items={gallery} reload={()=>load("gallery")} request={request} notify={notify}/>} {tab==="settings"&&settings&&<SettingsView data={settings} setData={setSettings} active={settingsTab} setActive={setSettingsTab} request={request} notify={notify}/>}</>}
+        {tab==="dashboard"&&<Dashboard stats={stats} go={setTab}/>} {tab==="leads"&&<Leads items={leads} reload={()=>load("leads")} request={request} notify={notify}/>} {tab==="properties"&&<PropertiesView items={properties} reload={()=>load("properties")} request={request} notify={notify}/>} {tab==="reviews"&&<Reviews items={reviews} reload={()=>load("reviews")} request={request} notify={notify}/>} {tab==="gallery"&&<GalleryView items={gallery} reload={()=>load("gallery")} request={request} notify={notify}/>} {tab==="seo"&&settings&&<SettingsView data={settings} setData={setSettings} active="seo" setActive={()=>{}} request={request} notify={notify} seoOnly/>} {tab==="settings"&&settings&&<SettingsView data={settings} setData={setSettings} active={settingsTab} setActive={setSettingsTab} request={request} notify={notify}/>}</>}
     </main>{toast&&<div className="toast">{toast}</div>}
   </div>;
 }
@@ -53,16 +53,49 @@ function Reviews({items,reload,request,notify}:{items:Review[];reload:()=>void;r
 
 function GalleryView({items,reload,request,notify}:{items:Gallery[];reload:()=>void;request:any;notify:(s:string)=>void}){const add=async(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();const body=Object.fromEntries(new FormData(e.currentTarget));await request("/api/admin/gallery",{method:"POST",body:JSON.stringify(body)});e.currentTarget.reset();notify("Media added.");reload()};const patch=async(id:number,data:any)=>{await request(`/api/admin/gallery/${id}`,{method:"PATCH",body:JSON.stringify(data)});reload()};const remove=async(id:number)=>{if(!confirm("Delete this media item?"))return;await request(`/api/admin/gallery/${id}`,{method:"DELETE"});reload()};return <><form className="panel form-panel form-grid" onSubmit={add}><label className="form-field">Media type<select name="type"><option value="image">Image</option><option value="video">Video</option></select></label><label className="form-field">Title<input name="title"/></label><label className="form-field full">HTTPS image or video URL<input name="url" type="url" required placeholder="https://…"/></label><label className="form-field full">Caption<textarea name="caption" rows={2}/></label><div className="form-actions"><button className="adm-btn primary">Add media</button></div></form><div className="item-list">{!items.length?<Empty text="The gallery is empty. Add an image or video above."/>:items.map(item=><article className="panel gallery-card gallery-row" key={item.id}>{item.type==="image"?<img className="gallery-preview" src={item.url} alt=""/>:<div className="gallery-preview"/>}<div><h3>{item.title||"Untitled media"}</h3><p className="meta">{item.type} · {item.published?"Visible":"Hidden"}</p><p className="card-body">{item.caption}</p></div><div className="card-actions"><button className="adm-btn small" onClick={()=>patch(item.id,{published:!item.published})}>{item.published?"Hide":"Show"}</button><button className="adm-btn small danger" onClick={()=>remove(item.id)}>Delete</button></div></article>)}</div></>}
 
-function SettingsView({data,setData,active,setActive,request,notify}:{data:SettingsData;setData:(d:SettingsData)=>void;active:string;setActive:(s:string)=>void;request:any;notify:(s:string)=>void}){
+function SettingsView({data,setData,active,setActive,request,notify,seoOnly=false}:{data:SettingsData;setData:(d:SettingsData)=>void;active:string;setActive:(s:string)=>void;request:any;notify:(s:string)=>void;seoOnly?:boolean}){
   const set=(group:keyof SettingsData,key:string,value:string|boolean)=>setData({...data,[group]:{...data[group],[key]:value}} as SettingsData);
   const save=async(e:React.FormEvent)=>{e.preventDefault();await request("/api/admin/settings",{method:"PUT",body:JSON.stringify({settings:data})});notify("Website settings saved.")};
   return <form className="panel form-panel" onSubmit={save}>
-    <div className="settings-tabs">{[{id:"hero",label:"Hero"},{id:"contact",label:"Contact"},{id:"social",label:"Social"},{id:"seo",label:"SEO"},{id:"crm",label:"CRM"},{id:"meta",label:"Meta Ads"}].map(item=><button type="button" key={item.id} className={active===item.id?"active":""} onClick={()=>setActive(item.id)}>{item.label}</button>)}</div>
+    {!seoOnly&&<div className="settings-tabs">{[{id:"hero",label:"Hero"},{id:"contact",label:"Contact"},{id:"social",label:"Social"},{id:"crm",label:"CRM"},{id:"meta",label:"Meta Ads"}].map(item=><button type="button" key={item.id} className={active===item.id?"active":""} onClick={()=>setActive(item.id)}>{item.label}</button>)}</div>}
     <div className="form-grid">
       {active==="hero"&&<><Field label="Small heading" value={data.hero.eyebrow} onChange={v=>set("hero","eyebrow",v)}/><Field label="Hero card title" value={data.hero.cardTitle} onChange={v=>set("hero","cardTitle",v)}/><Field label="Main headline" full area value={data.hero.title} onChange={v=>set("hero","title",v)}/><Field label="Hero message" full area value={data.hero.lead} onChange={v=>set("hero","lead",v)}/><Field label="Hero card text" full value={data.hero.cardText} onChange={v=>set("hero","cardText",v)}/></>}
       {active==="contact"&&<><Field label="Phone" value={data.contact.phone} onChange={v=>set("contact","phone",v)}/><Field label="WhatsApp number" value={data.contact.whatsapp} onChange={v=>set("contact","whatsapp",v)}/><Field label="Office address" full area value={data.contact.address} onChange={v=>set("contact","address",v)}/></>}
       {active==="social"&&<><Field label="Instagram URL" full value={data.social.instagram} onChange={v=>set("social","instagram",v)}/><Field label="Facebook URL" full value={data.social.facebook} onChange={v=>set("social","facebook",v)}/><Field label="WhatsApp channel URL" full value={data.social.whatsappChannel} onChange={v=>set("social","whatsappChannel",v)}/></>}
-      {active==="seo"&&<><Field label="SEO title" full value={data.seo.title} onChange={v=>set("seo","title",v)}/><Field label="SEO description" full area value={data.seo.description} onChange={v=>set("seo","description",v)}/></>}
+      {active==="seo"&&<>
+        <SeoHeading title="Search appearance" text="Set the default title, description and keywords used by search engines."/>
+        <Field label="Primary website URL" full value={data.seo.siteUrl} onChange={v=>set("seo","siteUrl",v)} placeholder="https://www.example.com"/>
+        <Field label={`SEO title (${data.seo.title.length}/60)`} full value={data.seo.title} onChange={v=>set("seo","title",v)} />
+        <Field label={`Meta description (${data.seo.description.length}/160)`} full area value={data.seo.description} onChange={v=>set("seo","description",v)}/>
+        <Field label="Keywords (comma separated)" full area value={data.seo.keywords} onChange={v=>set("seo","keywords",v)}/>
+        <div className="seo-preview full"><small>GOOGLE PREVIEW</small><strong>{data.seo.title || "Vesterra Group"}</strong><span>{data.seo.siteUrl || "https://example.com"}</span><p>{data.seo.description || "Add a concise description of the website."}</p></div>
+
+        <SeoHeading title="Indexing & sitemap" text="Control crawler access. Keep indexing enabled for a public website."/>
+        <Toggle label="Allow search engines to index the website" checked={data.seo.robotsIndex} onChange={v=>set("seo","robotsIndex",v)}/>
+        <Toggle label="Allow search engines to follow links" checked={data.seo.robotsFollow} onChange={v=>set("seo","robotsFollow",v)}/>
+        <Toggle label="Publish XML sitemap" checked={data.seo.sitemapEnabled} onChange={v=>set("seo","sitemapEnabled",v)}/>
+        <Toggle label="Include property images in sitemap" checked={data.seo.includePropertyImages} onChange={v=>set("seo","includePropertyImages",v)}/>
+        <div className="seo-links full"><a href="/robots.txt" target="_blank">View robots.txt ↗</a><a href="/sitemap.xml" target="_blank">View sitemap.xml ↗</a></div>
+
+        <SeoHeading title="Social sharing" text="These details create a polished preview when a page is shared on WhatsApp, Facebook, LinkedIn or X."/>
+        <Field label="Social share title" full value={data.seo.ogTitle} onChange={v=>set("seo","ogTitle",v)}/>
+        <Field label="Social share description" full area value={data.seo.ogDescription} onChange={v=>set("seo","ogDescription",v)}/>
+        <Field label="Social share image URL" full value={data.seo.ogImage} onChange={v=>set("seo","ogImage",v)} placeholder="/assets/share-image.jpg or https://…"/>
+        <Field label="X / Twitter handle" full value={data.seo.twitterHandle} onChange={v=>set("seo","twitterHandle",v)} placeholder="@vesterragroup"/>
+
+        <SeoHeading title="Search engine verification" text="Paste only the verification token from the provider, not the full HTML meta tag."/>
+        <Field label="Google Search Console token" full value={data.seo.googleVerification} onChange={v=>set("seo","googleVerification",v)}/>
+        <Field label="Bing Webmaster Tools token" full value={data.seo.bingVerification} onChange={v=>set("seo","bingVerification",v)}/>
+
+        <SeoHeading title="Local business structured data" text="Helps search engines understand the company, address, contact details and service area."/>
+        <Toggle label="Enable local business schema" checked={data.seo.localBusinessEnabled} onChange={v=>set("seo","localBusinessEnabled",v)}/>
+        <Field label="Business name" value={data.seo.businessName} onChange={v=>set("seo","businessName",v)}/>
+        <label className="form-field">Business type<select value={data.seo.businessType} onChange={e=>set("seo","businessType",e.target.value)}><option value="RealEstateAgent">Real estate agent</option><option value="RealEstateListing">Real estate listing business</option><option value="Organization">Organization</option><option value="LocalBusiness">Local business</option></select></label>
+        <Field label="Business phone" value={data.seo.businessPhone} onChange={v=>set("seo","businessPhone",v)}/>
+        <Field label="Price range" value={data.seo.priceRange} onChange={v=>set("seo","priceRange",v)} placeholder="₹₹₹"/>
+        <Field label="Latitude" value={data.seo.latitude} onChange={v=>set("seo","latitude",v)} placeholder="30.7046"/>
+        <Field label="Longitude" value={data.seo.longitude} onChange={v=>set("seo","longitude",v)} placeholder="76.7179"/>
+      </>}
       {active==="crm"&&<>
         <div className="integration-heading full"><h3>CRM lead delivery</h3><p>Send each website enquiry to your CRM through a secure HTTPS webhook.</p></div>
         <Toggle label="Enable CRM webhook" checked={data.integrations.crmEnabled} onChange={v=>set("integrations","crmEnabled",v)}/>
@@ -79,10 +112,11 @@ function SettingsView({data,setData,active,setActive,request,notify}:{data:Setti
         <Field label="Conversions API access token" full secret value={data.integrations.metaAccessToken} onChange={v=>set("integrations","metaAccessToken",v)} placeholder="Stored privately"/>
         <Field label="Test event code" full value={data.integrations.metaTestEventCode} onChange={v=>set("integrations","metaTestEventCode",v)} placeholder="Optional, for Meta Events Manager testing"/>
       </>}
-      <div className="form-actions"><button className="adm-btn primary">Save website details</button></div>
+      <div className="form-actions"><button className="adm-btn primary">{seoOnly?"Save SEO settings":"Save website details"}</button></div>
     </div>
   </form>
 }
 function Field({label,value,onChange,full,area,secret,placeholder}:{label:string;value:string;onChange:(v:string)=>void;full?:boolean;area?:boolean;secret?:boolean;placeholder?:string}){return <label className={`form-field ${full?"full":""}`}>{label}{area?<textarea rows={4} value={value} placeholder={placeholder} onChange={e=>onChange(e.target.value)}/>:<input type={secret?"password":"text"} value={value} placeholder={placeholder} onChange={e=>onChange(e.target.value)}/>}</label>}
 function Toggle({label,checked,onChange}:{label:string;checked:boolean;onChange:(v:boolean)=>void}){return <label className="integration-toggle"><input type="checkbox" checked={checked} onChange={e=>onChange(e.target.checked)}/><span>{label}</span></label>}
+function SeoHeading({title,text}:{title:string;text:string}){return <div className="seo-heading full"><h3>{title}</h3><p>{text}</p></div>}
 function Empty({text}:{text:string}){return <div className="panel empty">{text}</div>}

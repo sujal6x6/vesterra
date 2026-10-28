@@ -6,8 +6,9 @@ import { PropertyCard, PublicLayout } from "@/components/public-layout";
 
 export const dynamic = "force-dynamic";
 export const metadata:Metadata = {
-  title:"Properties | Vesterra Group",
+  title:"Properties",
   description:"Explore property opportunities listed by Vesterra Group.",
+  alternates:{canonical:"/properties"},
 };
 
 export default async function PropertiesPage() {
