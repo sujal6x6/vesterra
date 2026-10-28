@@ -22,9 +22,18 @@ npx wrangler d1 execute <database-name> --remote --file=drizzle/0000_bizarre_mys
 npx wrangler d1 execute <database-name> --remote --file=drizzle/0001_plain_vance_astro.sql
 ```
 
+For standalone Cloudflare hosting, configure these encrypted Worker secrets:
+
+- `ADMIN_PASSWORD`: the private password used at `/admin/login`
+- `ADMIN_SESSION_SECRET`: a random value of at least 32 characters used to sign login sessions
+
+Optional runtime values are `ADMIN_EMAIL` and `ADMIN_NAME`.
+
 ## Admin
 
-Open `/admin` and sign in with the ChatGPT account allowed to access the Site.
+Open `/admin`. Standalone Cloudflare deployments use the encrypted admin
+password configured above; Sites-hosted deployments continue to accept the
+platform-provided ChatGPT identity.
 
 The dashboard includes:
 

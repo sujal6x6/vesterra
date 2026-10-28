@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { adminAuthConfigured, readAdminSession } from "@/lib/admin-session";
 
 export type ChatGPTUser = {
   userId: string;
@@ -22,7 +23,10 @@ export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
   const requestHeaders = await headers();
   const userId = requestHeaders.get(USER_ID_HEADER);
   const email = requestHeaders.get(USER_EMAIL_HEADER);
-  if (!userId || !email) return null;
+  if (!userId || !email) {
+    const session = await readAdminSession(requestHeaders.get("cookie"));
+    return session ? { userId:`admin:${session.email.toLowerCase()}`, email:session.email, displayName:session.name, fullName:session.name } : null;
+  }
 
   const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
   const fullName =
@@ -44,8 +48,10 @@ export async function requireChatGPTUser(
 ): Promise<ChatGPTUser> {
   const user = await getChatGPTUser();
   if (user) return user;
-
-  redirect(chatGPTSignInPath(returnTo));
+  const requestHeaders = await headers();
+  const host = (requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "").split(":")[0].toLowerCase();
+  const standalone = host === "vesterragroup.in" || host === "www.vesterragroup.in" || host.endsWith(".workers.dev");
+  redirect(standalone || adminAuthConfigured() ? `/admin/login?return_to=${encodeURIComponent(safeRelativeReturnPath(returnTo))}` : chatGPTSignInPath(returnTo));
 }
 
 export function chatGPTSignInPath(returnTo: string): string {

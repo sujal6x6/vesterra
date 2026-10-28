@@ -1,4 +1,4 @@
-import { chatGPTSignOutPath, requireChatGPTUser } from "@/app/chatgpt-auth";
+import { requireChatGPTUser } from "@/app/chatgpt-auth";
 import AdminClient from "./admin-client";
 import type { Metadata } from "next";
 
@@ -7,5 +7,5 @@ export const metadata:Metadata = { title: "Admin", robots: { index: false, follo
 
 export default async function AdminPage() {
   const user = await requireChatGPTUser("/admin");
-  return <AdminClient user={user.displayName} signOutPath={chatGPTSignOutPath("/")} />;
+  return <AdminClient user={user.displayName} signOutPath="/api/admin/logout?return_to=/" />;
 }
