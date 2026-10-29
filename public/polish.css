@@ -220,9 +220,9 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   .services-intro{margin-bottom:26px}
   .services-intro .h2{font-size:37px}
   .vertical-rail-head{display:flex;align-items:center;gap:14px;margin-bottom:12px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-  .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
+  .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
   .services-page .vertical-page-list::-webkit-scrollbar{display:none}
-  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(78vw,320px);min-height:340px;padding:20px;scroll-snap-align:start;border-radius:var(--radius-lg)}
+  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(78vw,320px);min-height:340px;padding:20px;scroll-snap-align:start;scroll-snap-stop:always;border-radius:var(--radius-lg)}
   .services-page .vertical-page-card>.vertical-number{top:18px;left:18px;width:38px;height:38px;font-size:9px}
   .services-page .vertical-card-copy small{margin-bottom:8px;font-size:8px}
   .services-page .vertical-page-card h2{font-size:34px}

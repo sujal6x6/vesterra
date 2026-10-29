@@ -99,9 +99,15 @@ function initAutoSwipeRails() {
     window.setInterval(() => {
       const items = cards();
       if (!mobile.matches || reducedMotion.matches || !visible || document.hidden || items.length < 2 || Date.now() < pauseUntil || Date.now() < autoSwipePauseUntil) return;
-      const nearest = items.reduce((best, card, index) => Math.abs(card.offsetLeft - rail.scrollLeft) < Math.abs(items[best].offsetLeft - rail.scrollLeft) ? index : best, 0);
+      const railRect = rail.getBoundingClientRect();
+      const paddingLeft = Number.parseFloat(getComputedStyle(rail).paddingLeft) || 0;
+      const targetLeft = (card) => {
+        const cardRect = card.getBoundingClientRect();
+        return Math.max(0, rail.scrollLeft + cardRect.left - railRect.left - paddingLeft);
+      };
+      const nearest = items.reduce((best, card, index) => Math.abs(targetLeft(card) - rail.scrollLeft) < Math.abs(targetLeft(items[best]) - rail.scrollLeft) ? index : best, 0);
       current = nearest >= items.length - 1 ? 0 : nearest + 1;
-      rail.scrollTo({ left: items[current].offsetLeft - rail.offsetLeft, behavior: 'smooth' });
+      rail.scrollTo({ left: targetLeft(items[current]), behavior: 'smooth' });
     }, 3400);
   });
 }
