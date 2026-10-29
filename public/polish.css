@@ -131,7 +131,7 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   :root body.editorial-home .hdr:not(.scrolled) .menu-btn span::before,
   :root body.editorial-home .hdr:not(.scrolled) .menu-btn span::after{background:#fff}
   :root body.editorial-home .hero{display:flex;align-items:flex-end;min-height:680px;padding:116px 0 38px;border-radius:0 0 30px 30px;background:#07100c;color:#fff}
-  html body.editorial-home .hero-grid{width:100%}
+  html body.editorial-home .hero-grid{width:calc(100% - 40px);margin-inline:auto}
   html body.editorial-home .hero-frame img{object-position:63% center;filter:saturate(.9) contrast(1.03)}
   :root body.editorial-home .hero-frame::after{background:linear-gradient(180deg,rgba(3,10,7,.16) 15%,rgba(3,10,7,.34) 44%,rgba(3,10,7,.96) 83%),linear-gradient(90deg,rgba(3,10,7,.5),transparent 70%)}
   :root body.editorial-home .hero .eyebrow{font-size:8px;letter-spacing:.17em;margin-bottom:17px;color:#f0dcc0}
