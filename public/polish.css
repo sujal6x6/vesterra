@@ -58,6 +58,9 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 .services-page .services-hero .services-hero-bottom p{margin:0}
 .services-hero-logo{width:112px;transform:rotate(2deg)}
 .services-hero-logo .story-logo{border-radius:26px;box-shadow:0 20px 55px rgba(7,13,10,.2)}
+.services-hero-logo .brand-film-layers{display:none!important}
+.services-hero-logo .brand-film-still{visibility:visible!important;animation:services-logo-breathe 5s ease-in-out infinite}
+.services-hero-logo .brand-film::after{content:"";position:absolute;inset:-35%;background:linear-gradient(110deg,transparent 40%,rgba(255,239,184,.28) 50%,transparent 60%);transform:translateX(-65%) rotate(8deg);animation:services-logo-light 5s ease-in-out infinite;pointer-events:none}
 .vertical-jump-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .vertical-jump-nav a{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:9px 16px;border:1px solid var(--line-strong);border-radius:999px;background:color-mix(in srgb,var(--surface) 78%,transparent);font-size:12px;font-weight:700;transition:transform .25s,border-color .25s,background .25s}
 .vertical-jump-nav a:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--surface)}
@@ -88,6 +91,8 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 .services-cta-card h2{max-width:15ch;font:500 clamp(38px,5vw,68px)/.96 var(--f-display);letter-spacing:-.025em}
 .services-cta-card p{max-width:47ch;margin-top:18px;color:var(--muted);font-size:15px;line-height:1.7}
 .services-cta-card .btn{white-space:nowrap}
+@keyframes services-logo-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@keyframes services-logo-light{0%,25%{transform:translateX(-65%) rotate(8deg)}55%,100%{transform:translateX(65%) rotate(8deg)}}
 
 /* Homepage cards and image-led sections. */
 .editorial-home{--r:var(--radius-md);--r-lg:var(--radius-lg);--f-editorial:"DM Serif Display",Georgia,serif;--f-body:"DM Sans",sans-serif;--f-head:"Outfit","DM Sans",sans-serif}
@@ -211,18 +216,18 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   .site-page .page-hero p{font-size:14px;line-height:1.55;margin-top:20px;max-width:36ch}
 
   .services-page .services-showcase{padding-block:46px}
-  .services-page .services-hero{padding-bottom:58px}
+  .services-page .services-hero{min-height:0;padding-bottom:30px}
   .services-hero-bottom{grid-template-columns:minmax(0,1fr) 82px;gap:14px;align-items:center;margin-top:20px}
   .services-hero-logo{width:82px}
   .services-hero-logo .story-logo{border-radius:19px}
-  .vertical-jump-nav{gap:7px;margin-top:25px}
+  .vertical-jump-nav{gap:7px;margin-top:18px}
   .vertical-jump-nav a{min-height:38px;padding:8px 12px;font-size:10px}
   .services-intro{margin-bottom:26px}
   .services-intro .h2{font-size:37px}
   .vertical-rail-head{display:flex;align-items:center;gap:14px;margin-bottom:12px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-  .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
+  .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:0;margin-inline:0;padding:2px 0 16px;scrollbar-width:none}
   .services-page .vertical-page-list::-webkit-scrollbar{display:none}
-  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(78vw,320px);min-height:340px;padding:20px;scroll-snap-align:start;scroll-snap-stop:always;border-radius:var(--radius-lg)}
+  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 100%;min-height:330px;padding:20px;scroll-snap-align:start;scroll-snap-stop:always;border-radius:var(--radius-lg)}
   .services-page .vertical-page-card>.vertical-number{top:18px;left:18px;width:38px;height:38px;font-size:9px}
   .services-page .vertical-card-copy small{margin-bottom:8px;font-size:8px}
   .services-page .vertical-page-card h2{font-size:34px}
