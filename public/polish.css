@@ -52,19 +52,38 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 .site-page .page-hero p{max-width:48ch;font-size:17px;line-height:1.7;margin-top:28px}
 
 /* Services are visual destinations instead of paragraph rows. */
-.services-page .services-showcase{padding-block:clamp(54px,7vw,100px)}
+.services-page .services-showcase{padding-block:clamp(64px,8vw,110px)}
+.services-page .services-hero{padding-bottom:clamp(82px,10vw,138px)}
+.vertical-jump-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.vertical-jump-nav a{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:9px 16px;border:1px solid var(--line-strong);border-radius:999px;background:color-mix(in srgb,var(--surface) 78%,transparent);font-size:12px;font-weight:700;transition:transform .25s,border-color .25s,background .25s}
+.vertical-jump-nav a:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--surface)}
+.vertical-jump-nav span{color:var(--accent);font-size:9px;letter-spacing:.08em}
+.services-intro{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.7fr);gap:clamp(34px,8vw,120px);align-items:end;margin-bottom:42px}
+.services-intro .h2{max-width:11ch}
+.services-intro .h2 em{color:var(--accent);font-weight:inherit}
+.services-intro .lede{max-width:43ch;margin:0 0 5px auto}
+.vertical-rail-head{display:none}
 .services-page .vertical-page-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.services-page .vertical-page-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:480px;padding:30px;color:#fff;border:0;box-shadow:0 22px 60px rgba(7,13,10,.18)}
+.services-page .vertical-page-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:520px;padding:30px;color:#fff;border:0;border-radius:var(--radius-lg);box-shadow:0 22px 60px rgba(7,13,10,.18)}
 .services-page .vertical-page-card::before,.services-page .vertical-page-card::after{content:"";position:absolute;inset:0;z-index:-2;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
 .services-page .vertical-page-card::before{background:url('/assets/properties/aerocity-courtyard-residence.webp') center/cover}
 .services-page .vertical-page-card:nth-child(2)::before{background-image:url('/assets/properties/vesterra-hero-courtyard.webp')}
 .services-page .vertical-page-card:nth-child(3)::before{background-image:url('/assets/properties/airport-district-offices.webp')}
-.services-page .vertical-page-card::after{z-index:-1;background:linear-gradient(180deg,rgba(5,12,9,.06) 15%,rgba(5,12,9,.92) 78%)}
+.services-page .vertical-page-card::after{z-index:-1;background:linear-gradient(180deg,rgba(5,12,9,.08) 10%,rgba(5,12,9,.3) 42%,rgba(5,12,9,.95) 82%)}
 .services-page .vertical-page-card:hover::before{transform:scale(1.055)}
-.services-page .vertical-page-card>span{position:absolute;top:24px;left:24px;display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(255,255,255,.5);border-radius:50%;font-size:11px;letter-spacing:.08em}
+.services-page .vertical-page-card>.vertical-number{position:absolute;top:24px;left:24px;display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(255,255,255,.5);border-radius:50%;font-size:11px;letter-spacing:.08em}
+.services-page .vertical-card-copy small{display:block;margin-bottom:12px;color:#f1c66e;font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
 .services-page .vertical-page-card h2{font:500 46px/.98 var(--f-display);color:#fff}
 .services-page .vertical-page-card p{color:rgba(255,255,255,.78);font-size:13px;line-height:1.65;max-width:34ch;margin-top:14px}
-.services-page .vertical-page-card>a{color:#fff;border-top:1px solid rgba(255,255,255,.3);padding-top:16px;margin-top:22px;font-size:12px;font-weight:700}
+.services-page .vertical-detail{margin-top:15px;color:rgba(255,255,255,.56);font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.services-page .vertical-page-card>a{display:flex;align-items:center;justify-content:space-between;color:#fff;border-top:1px solid rgba(255,255,255,.3);padding-top:16px;margin-top:22px;font-size:12px;font-weight:700}
+.services-page .vertical-page-card>a b{font-size:20px;font-weight:400;transition:transform .25s}
+.services-page .vertical-page-card>a:hover b{transform:translate(3px,-3px)}
+.services-cta{padding-top:0!important}
+.services-cta-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(32px,7vw,100px);align-items:end;overflow:hidden;padding:clamp(34px,5vw,68px);border:1px solid var(--line);border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--surface),var(--soft));box-shadow:0 24px 70px rgba(5,13,9,.09)}
+.services-cta-card h2{max-width:15ch;font:500 clamp(38px,5vw,68px)/.96 var(--f-display);letter-spacing:-.025em}
+.services-cta-card p{max-width:47ch;margin-top:18px;color:var(--muted);font-size:15px;line-height:1.7}
+.services-cta-card .btn{white-space:nowrap}
 
 /* Homepage cards and image-led sections. */
 .editorial-home{--r:var(--radius-md);--r-lg:var(--radius-lg);--f-editorial:"DM Serif Display",Georgia,serif;--f-body:"DM Sans",sans-serif;--f-head:"Outfit","DM Sans",sans-serif}
@@ -107,8 +126,12 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 .services-page .vertical-page-card:nth-child(3){animation-delay:.24s}
 
 @media(max-width:900px){
+  .services-intro{grid-template-columns:1fr;gap:20px}
+  .services-intro .lede{margin:0}
   .services-page .vertical-page-list{grid-template-columns:1fr 1fr}
   .services-page .vertical-page-card:last-child{grid-column:1/-1;min-height:390px}
+  .services-cta-card{grid-template-columns:1fr;align-items:start}
+  .services-cta-card .btn{justify-self:start}
 }
 
 @media(max-width:620px){
@@ -184,11 +207,25 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   .site-page .page-hero p{font-size:14px;line-height:1.55;margin-top:20px;max-width:36ch}
 
   .services-page .services-showcase{padding-block:46px}
+  .services-page .services-hero{padding-bottom:58px}
+  .vertical-jump-nav{gap:7px;margin-top:25px}
+  .vertical-jump-nav a{min-height:38px;padding:8px 12px;font-size:10px}
+  .services-intro{margin-bottom:26px}
+  .services-intro .h2{font-size:37px}
+  .vertical-rail-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+  .vertical-rail-head span:last-child{color:var(--accent);text-align:right}
+  .vertical-rail-head b{font-size:15px}
   .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
   .services-page .vertical-page-list::-webkit-scrollbar{display:none}
-  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 84vw;min-height:400px;padding:24px;scroll-snap-align:start;border-radius:var(--radius-lg)}
-  .services-page .vertical-page-card h2{font-size:40px}
+  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(82vw,350px);min-height:386px;padding:23px;scroll-snap-align:start;border-radius:var(--radius-lg)}
+  .services-page .vertical-page-card h2{font-size:38px}
   .services-page .vertical-page-card p{font-size:12.5px}
+  .services-page .vertical-detail{font-size:8px}
+  .services-cta{padding-bottom:54px!important}
+  .services-cta-card{gap:26px;padding:32px 24px;border-radius:var(--radius-lg)}
+  .services-cta-card h2{font-size:40px}
+  .services-cta-card p{font-size:13px;line-height:1.6}
+  .services-cta-card .btn{width:100%;justify-content:center}
 
   .team-card{border-radius:var(--radius-md)}
   .form-card{border-radius:var(--radius-md)}
