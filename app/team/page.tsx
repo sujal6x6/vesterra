@@ -15,7 +15,7 @@ export default function TeamPage() {
       <div className="wrap">
         <div className="eyebrow">Our Team</div>
         <h1>Experience that leads.<br/><span>Perspective that lasts.</span></h1>
-        <p>Meet the people shaping Vesterra’s direction and bringing a personal, informed approach to every opportunity.</p>
+        <p>Meet the people shaping Vesterra’s direction with experience, clarity and personal attention.</p>
       </div>
     </section>
     <TeamSection />

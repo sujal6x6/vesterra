@@ -8,8 +8,12 @@ export type PropertyCardData = { slug:string; title:string; status:string; featu
 export function PublicLayout({ children, current, pageClass = "" }: { children:ReactNode; current?:string; pageClass?:string }) {
   const nav = [["/about","About"],["/team","Team"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
   return <div className={`site-page ${pageClass}`.trim()}>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/theme.css" />
+    <link rel="stylesheet" href="/polish.css" />
     <header className="hdr" id="hdr"><div className="wrap hdr-in">
       <Link href="/" className="brand" aria-label="Vesterra Group home"><img src="/assets/vesterra-mark.svg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link>
       <nav className="nav" id="nav" aria-label="Main navigation">{nav.map(([href,label])=><Link key={href} href={href} className={current===href?"active":""}>{label}</Link>)}<Link href="/contact" className="btn btn-primary mnav-cta">Talk to Us</Link></nav>

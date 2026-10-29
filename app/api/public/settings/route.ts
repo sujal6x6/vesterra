@@ -12,6 +12,8 @@ export async function GET() {
   const parsed:unknown = rows[0]?.data ? JSON.parse(rows[0].data) : {};
   const saved = isJsonObject(parsed) ? parsed : {};
   const merged = deepMerge(siteDefaults, saved);
+  if (merged.hero.title === "Spaces Today.\nGreater Tomorrows.") merged.hero.title = siteDefaults.hero.title;
+  if (merged.hero.lead === "Vesterra Group brings together considered spaces, thoughtful experiences and enduring investments — shaping a better tomorrow for people, communities and generations.") merged.hero.lead = siteDefaults.hero.lead;
   if (merged.seo.ogImage === "/assets/properties/vesterra-hero-courtyard.png") merged.seo.ogImage = "/assets/properties/vesterra-hero-courtyard.webp";
   const settings = {
     hero: merged.hero,

@@ -20,7 +20,7 @@ export default async function PropertiesPage() {
       <div className="wrap">
         <div className="eyebrow">Property portfolio</div>
         <h1>Places with potential.<br/><span>Opportunities with perspective.</span></h1>
-        <p>Explore Vesterra’s current property listings. Every available opportunity is presented with the essential details you need to begin a considered conversation.</p>
+        <p>Explore current property opportunities and the details that matter.</p>
       </div>
     </section>
     <section className="sec property-listing-section">
