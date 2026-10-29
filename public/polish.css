@@ -195,3 +195,17 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   .services-page .vertical-page-card::before{animation:none!important;transition:none!important}
   .world-card:hover,.property-card:hover,.why:hover,.team-card:hover{transform:none}
 }
+
+/* Make the theme choice unmistakable while preserving the photographic brand. */
+body,.site-page,.hdr,.sec,.card,.ftr,.final{transition:background-color .25s ease,color .25s ease,border-color .25s ease}
+:root[data-theme="light"] .theme-toggle{background:#fffdf8;color:#142019;border-color:#c7b79e}
+:root[data-theme="dark"] .theme-toggle{background:#eac174;color:#07100c;border-color:#eac174}
+:root[data-theme="light"] body.editorial-home .hero-frame::after{background:linear-gradient(90deg,rgba(3,10,7,.72),rgba(3,10,7,.30) 55%,rgba(3,10,7,.04) 82%),linear-gradient(0deg,rgba(3,10,7,.56),transparent 58%)}
+:root[data-theme="dark"] body.editorial-home .hero-frame::after{background:linear-gradient(90deg,rgba(3,10,7,.96),rgba(3,10,7,.72) 55%,rgba(3,10,7,.24) 82%),linear-gradient(0deg,rgba(3,10,7,.88),transparent 58%)}
+:root[data-theme="light"] .scroll-progress{background:linear-gradient(90deg,#9a6517,#d9a844)}
+:root[data-theme="dark"] .scroll-progress{background:linear-gradient(90deg,#eac174,#fff0b9)}
+
+@media(max-width:620px){
+  :root[data-theme="light"] body.editorial-home .hero-frame::after{background:linear-gradient(180deg,rgba(3,10,7,.10) 12%,rgba(3,10,7,.25) 45%,rgba(3,10,7,.84) 84%),linear-gradient(90deg,rgba(3,10,7,.30),transparent 70%)}
+  :root[data-theme="dark"] body.editorial-home .hero-frame::after{background:linear-gradient(180deg,rgba(3,10,7,.36) 12%,rgba(3,10,7,.58) 45%,rgba(3,10,7,.98) 84%),linear-gradient(90deg,rgba(3,10,7,.60),transparent 70%)}
+}
