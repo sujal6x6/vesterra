@@ -45,7 +45,28 @@ themeButton?.addEventListener('click', () => {
   applyTheme(next);
 });
 
-window.addEventListener('scroll', () => header?.classList.toggle('scrolled', scrollY > 16), { passive: true });
+const scrollProgress = document.createElement('div');
+scrollProgress.className = 'scroll-progress';
+scrollProgress.setAttribute('aria-hidden', 'true');
+document.body.prepend(scrollProgress);
+
+let scrollFramePending = false;
+let autoSwipePauseUntil = 0;
+function syncScrollUi() {
+  header?.classList.toggle('scrolled', scrollY > 16);
+  const available = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  scrollProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, scrollY / available))})`;
+  scrollFramePending = false;
+}
+function queueScrollUi() {
+  autoSwipePauseUntil = Date.now() + 900;
+  if (scrollFramePending) return;
+  scrollFramePending = true;
+  requestAnimationFrame(syncScrollUi);
+}
+window.addEventListener('scroll', queueScrollUi, { passive: true });
+window.addEventListener('resize', queueScrollUi, { passive: true });
+syncScrollUi();
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -77,7 +98,7 @@ function initAutoSwipeRails() {
 
     window.setInterval(() => {
       const items = cards();
-      if (!mobile.matches || reducedMotion.matches || !visible || document.hidden || items.length < 2 || Date.now() < pauseUntil) return;
+      if (!mobile.matches || reducedMotion.matches || !visible || document.hidden || items.length < 2 || Date.now() < pauseUntil || Date.now() < autoSwipePauseUntil) return;
       const nearest = items.reduce((best, card, index) => Math.abs(card.offsetLeft - rail.scrollLeft) < Math.abs(items[best].offsetLeft - rail.scrollLeft) ? index : best, 0);
       current = nearest >= items.length - 1 ? 0 : nearest + 1;
       rail.scrollTo({ left: items[current].offsetLeft - rail.offsetLeft, behavior: 'smooth' });
