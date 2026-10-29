@@ -6,7 +6,7 @@ import { propertyImageFor } from "@/lib/property-images";
 export type PropertyCardData = { slug:string; title:string; status:string; featured:boolean; propertyType:string; location:string; bedrooms:number; bathrooms:number; area:string; price:string; imageUrl?:string };
 
 export function PublicLayout({ children, current, pageClass = "" }: { children:ReactNode; current?:string; pageClass?:string }) {
-  const nav = [["/about","About"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
+  const nav = [["/about","About"],["/team","Team"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
   return <div className={`site-page ${pageClass}`.trim()}>
     <link rel="stylesheet" href="/styles.css" />
     <header className="hdr" id="hdr"><div className="wrap hdr-in">
@@ -19,7 +19,7 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
     <main>{children}</main>
     <footer className="ftr"><div className="wrap ftr-grid">
       <div><Link href="/" className="brand footer-brand"><img src="/assets/vesterra-logo.jpeg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link><p>Building legacies. Creating futures.</p></div>
-      <div><h4>Explore</h4><Link href="/about">About</Link><Link href="/services">Our Verticals</Link><Link href="/properties">Properties</Link><Link href="/contact">Contact</Link></div>
+      <div><h4>Explore</h4><Link href="/about">About</Link><Link href="/team">Team</Link><Link href="/services">Our Verticals</Link><Link href="/properties">Properties</Link><Link href="/contact">Contact</Link></div>
       <div><h4>Connect</h4><div className="social-links">
         <a className="social-link" data-social="instagram" href="https://www.instagram.com/vesterragroup" target="_blank" rel="noopener" aria-label="Vesterra on Instagram"><span className="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span>Instagram</span></a>
         <a className="social-link" data-social="facebook" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Vesterra on Facebook"><span className="social-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.2 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H8V13h2.8v8h3.4Z"/></svg></span><span>Facebook</span></a>

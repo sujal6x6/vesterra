@@ -13,7 +13,7 @@ export async function GET() {
   if (!seo.sitemapEnabled) return new Response("Sitemap disabled", { status: 404 });
   const siteUrl = normaliseSiteUrl(seo.siteUrl);
   const rows = await getDb().select().from(properties).where(eq(properties.published, true)).orderBy(desc(properties.updatedAt));
-  const staticPages = ["", "/about", "/services", "/properties", "/contact"];
+  const staticPages = ["", "/about", "/team", "/services", "/properties", "/contact"];
   const urls = [
     ...staticPages.map((path) => `<url><loc>${escapeXml(siteUrl + path)}</loc><changefreq>${path === "" ? "weekly" : "monthly"}</changefreq><priority>${path === "" ? "1.0" : path === "/properties" ? "0.9" : "0.7"}</priority></url>`),
     ...rows.map((property) => {
