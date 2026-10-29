@@ -10,7 +10,7 @@ export async function GET() {
   const image = absoluteSiteUrl(seo.ogImage, siteUrl);
   const schema = seo.localBusinessEnabled ? {
     "@context":"https://schema.org", "@type":seo.businessType || "RealEstateAgent", "@id":`${siteUrl}/#organization`,
-    name:seo.businessName || "Vesterra Group", url:siteUrl, logo:absoluteSiteUrl("/assets/vesterra-logo.jpeg", siteUrl), image,
+    name:seo.businessName || "Vesterra Group", url:siteUrl, logo:absoluteSiteUrl("/assets/vesterra-mark.svg", siteUrl), image,
     telephone:seo.businessPhone || contact.phone, address:{"@type":"PostalAddress",streetAddress:contact.address,addressLocality:"Mohali",addressRegion:"Punjab",addressCountry:"IN"},
     priceRange:seo.priceRange || undefined, sameAs:[social.instagram,social.facebook,social.whatsappChannel].filter(Boolean),
     geo:seo.latitude && seo.longitude ? {"@type":"GeoCoordinates",latitude:seo.latitude,longitude:seo.longitude} : undefined,

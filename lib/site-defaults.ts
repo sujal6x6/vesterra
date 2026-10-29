@@ -1,8 +1,8 @@
 export const siteDefaults = {
   hero: {
     eyebrow: "Real Estate · Hospitality · Investments",
-    title: "Building Legacies\nCreating Futures.",
-    lead: "Vesterra Group brings thoughtful opportunities and enduring value together—across places to live, experiences to remember and investments shaped for tomorrow.",
+    title: "Spaces Today.\nGreater Tomorrows.",
+    lead: "Vesterra Group brings together considered spaces, thoughtful experiences and enduring investments — shaping a better tomorrow for people, communities and generations.",
     cardTitle: "One group. Three horizons.",
     cardText: "Building value with a long-term perspective.",
   },

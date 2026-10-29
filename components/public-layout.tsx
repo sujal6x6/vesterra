@@ -9,8 +9,9 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
   const nav = [["/about","About"],["/team","Team"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
   return <div className={`site-page ${pageClass}`.trim()}>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/theme.css" />
     <header className="hdr" id="hdr"><div className="wrap hdr-in">
-      <Link href="/" className="brand" aria-label="Vesterra Group home"><img src="/assets/vesterra-logo.jpeg" alt="Vesterra Group"/><span><strong>Vesterra</strong><small>Group</small></span></Link>
+      <Link href="/" className="brand" aria-label="Vesterra Group home"><img src="/assets/vesterra-mark.svg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link>
       <nav className="nav" id="nav" aria-label="Main navigation">{nav.map(([href,label])=><Link key={href} href={href} className={current===href?"active":""}>{label}</Link>)}<Link href="/contact" className="btn btn-primary mnav-cta">Talk to Us</Link></nav>
       <Link href="/contact" className="btn btn-primary hdr-cta">Talk to Us</Link>
       <button className="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><svg className="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg><svg className="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg><span>Dark</span></button>
@@ -18,7 +19,7 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
     </div></header>
     <main>{children}</main>
     <footer className="ftr"><div className="wrap ftr-grid">
-      <div><Link href="/" className="brand footer-brand"><img src="/assets/vesterra-logo.jpeg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link><p>Building legacies. Creating futures.</p></div>
+      <div><Link href="/" className="brand footer-brand"><img src="/assets/vesterra-mark.svg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link><p>Building legacies. Creating futures.</p></div>
       <div><h4>Explore</h4><Link href="/about">About</Link><Link href="/team">Team</Link><Link href="/services">Our Verticals</Link><Link href="/properties">Properties</Link><Link href="/contact">Contact</Link></div>
       <div><h4>Connect</h4><div className="social-links">
         <a className="social-link" data-social="instagram" href="https://www.instagram.com/vesterragroup" target="_blank" rel="noopener" aria-label="Vesterra on Instagram"><span className="social-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span>Instagram</span></a>

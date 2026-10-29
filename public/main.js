@@ -25,6 +25,7 @@ navigation?.querySelectorAll('a').forEach((link) => link.addEventListener('click
 
 function applyTheme(theme) {
   root.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#000000' : '#ffffff');
   const dark = theme === 'dark';
   if (themeButton) {
     themeButton.classList.toggle('is-dark', dark);
@@ -35,10 +36,12 @@ function applyTheme(theme) {
   }
 }
 
-applyTheme(localStorage.getItem('vesterra-theme') || 'light');
+let savedTheme = 'light';
+try { savedTheme = localStorage.getItem('vesterra-theme') === 'dark' ? 'dark' : 'light'; } catch {}
+applyTheme(savedTheme);
 themeButton?.addEventListener('click', () => {
   const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('vesterra-theme', next);
+  try { localStorage.setItem('vesterra-theme', next); } catch {}
   applyTheme(next);
 });
 
@@ -249,7 +252,9 @@ async function loadFeaturedProperties() {
       article.append(imageLink, body);
       grid.append(article);
     });
-    section.hidden = homepageProperties.length === 0;
+    const conversation = document.getElementById('propertyConversation');
+    if (conversation) conversation.hidden = homepageProperties.length > 0;
+    section.hidden = homepageProperties.length === 0 && !conversation;
   } catch (_) {
     // The hand-authored home page remains complete without dynamic listings.
   }
@@ -257,9 +262,9 @@ async function loadFeaturedProperties() {
 
 function propertyImageFor(property) {
   const images = {
-    'aerocity-courtyard-residence': '/assets/properties/aerocity-courtyard-residence.png',
-    'canal-view-residences': '/assets/properties/canal-view-residences.png',
-    'airport-district-offices': '/assets/properties/airport-district-offices.png',
+    'aerocity-courtyard-residence': '/assets/properties/aerocity-courtyard-residence.webp',
+    'canal-view-residences': '/assets/properties/canal-view-residences.webp',
+    'airport-district-offices': '/assets/properties/airport-district-offices.webp',
   };
   return property.imageUrl || images[property.slug] || '';
 }
@@ -297,4 +302,18 @@ async function loadPublicContent() {
   } catch (_) {
     // Optional dynamic sections stay hidden if content is unavailable.
   }
+}
+
+// Stop atmospheric work when the hero or browser tab is out of view.
+const heroMist = document.querySelector('.hero-mist');
+if (heroMist) {
+  let mistInView = false;
+  const syncMist = () => heroMist.classList.toggle('is-paused', !mistInView || document.hidden);
+  const mistObserver = new IntersectionObserver(([entry]) => {
+    mistInView = entry.isIntersecting;
+    syncMist();
+  });
+  mistObserver.observe(heroMist);
+  document.addEventListener('visibilitychange', syncMist);
+  syncMist();
 }

@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: { type: "website", siteName: "Vesterra Group", url: siteUrl, title: seo.ogTitle || seo.title, description: seo.ogDescription || seo.description, images: [{ url: socialImage, alt: "Vesterra Group" }] },
     twitter: { card: "summary_large_image", site: seo.twitterHandle || undefined, title: seo.ogTitle || seo.title, description: seo.ogDescription || seo.description, images: [socialImage] },
     verification: { google: seo.googleVerification || undefined, other: seo.bingVerification ? { "msvalidate.01": seo.bingVerification } : undefined },
-    icons: { icon: "/assets/vesterra-logo.jpeg", shortcut: "/assets/vesterra-logo.jpeg" },
+    icons: { icon: "/assets/vesterra-mark.svg", shortcut: "/assets/vesterra-mark.svg" },
   };
 }
 
@@ -35,7 +35,7 @@ export default async function RootLayout({
     "@id": `${siteUrl}/#organization`,
     name: seo.businessName || "Vesterra Group",
     url: siteUrl,
-    logo: absoluteSiteUrl("/assets/vesterra-logo.jpeg", siteUrl),
+    logo: absoluteSiteUrl("/assets/vesterra-mark.svg", siteUrl),
     image: absoluteSiteUrl(seo.ogImage, siteUrl),
     telephone: seo.businessPhone || contact.phone,
     address: { "@type": "PostalAddress", streetAddress: contact.address, addressLocality: "Mohali", addressRegion: "Punjab", addressCountry: "IN" },

@@ -224,3 +224,28 @@ h1,h2,h3,h4{font-family:var(--f-head);color:var(--heading);margin:0;line-height:
   .properties-index-page .property-grid .property-card{grid-template-columns:minmax(132px,42%) minmax(0,1fr);min-height:205px}
   .properties-index-page .property-grid .property-image{min-height:205px}.properties-index-page .property-grid .property-image img{object-position:center center}
 }
+
+/* Full original brand artwork on the About page. */
+.story-grid:has(.story-logo){grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,70px)}
+.story-logo{aspect-ratio:1;overflow:hidden;border-radius:18px;background:#111214;box-shadow:0 20px 60px #0002}
+.story-logo img{display:block;width:100%;height:auto}
+@media(max-width:760px){.story-grid:has(.story-logo){grid-template-columns:1fr}.story-logo{width:100%;max-width:520px;margin-inline:auto}}
+
+/* Eight-second brand sequence, built from the original artwork. */
+.story-logo{position:relative;scroll-margin-top:105px}
+.brand-film{position:relative;width:100%;aspect-ratio:1;background:#111214}
+.brand-film-still{position:absolute;inset:0}
+.brand-film-layers{display:none;position:absolute;inset:0;overflow:hidden;background:#111214}
+.brand-film-layer{position:absolute;inset:0;background:url('/assets/vesterra-logo.jpeg') center/100% 100% no-repeat}
+.brand-film-crest{clip-path:inset(0 0 35% 0);transform-origin:50% 38%;animation:brand-crest 8s ease-in-out infinite}
+.brand-film-name{clip-path:inset(65% 0 23% 0);animation:brand-name 8s ease-in-out infinite}
+.brand-film-group{clip-path:inset(77% 0 16% 0);animation:brand-group 8s ease-in-out infinite}
+.brand-film-tagline{clip-path:inset(84% 0 0 0);animation:brand-tagline 8s ease-in-out infinite}
+.brand-film-light{position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#fff1bc66 49%,transparent 62%);mix-blend-mode:screen;animation:brand-light 8s ease-in-out infinite;pointer-events:none}
+@media(prefers-reduced-motion:no-preference){.brand-film-layers{display:block}.brand-film-still{visibility:hidden}}
+.brand-film:not(.is-visible) .brand-film-layers>*{animation-play-state:paused}
+@keyframes brand-crest{0%{opacity:0;transform:translateY(20px) scale(.92);clip-path:inset(65% 0 35% 0)}18%{opacity:1;transform:none;clip-path:inset(0 0 35% 0)}45%{transform:translateY(-4px) scale(1.012)}70%,90%{opacity:1;transform:none;clip-path:inset(0 0 35% 0)}100%{opacity:0;transform:none;clip-path:inset(0 0 35% 0)}}
+@keyframes brand-name{0%,15%{opacity:0;transform:translateY(14px);clip-path:inset(65% 100% 23% 0)}32%,90%{opacity:1;transform:none;clip-path:inset(65% 0 23% 0)}100%{opacity:0;transform:none;clip-path:inset(65% 0 23% 0)}}
+@keyframes brand-group{0%,28%{opacity:0;transform:scaleX(.8)}43%,90%{opacity:1;transform:none}100%{opacity:0;transform:none}}
+@keyframes brand-tagline{0%,38%{opacity:0;transform:translateY(10px)}52%,90%{opacity:1;transform:none}100%{opacity:0;transform:none}}
+@keyframes brand-light{0%,50%{opacity:0;transform:translateX(-110%)}55%{opacity:.8}72%,100%{opacity:0;transform:translateX(110%)}}

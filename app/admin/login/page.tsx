@@ -13,7 +13,7 @@ export default async function AdminLoginPage({searchParams}:{searchParams:Promis
   const query = await searchParams;
   const configured = adminAuthConfigured();
   return <main className="admin-login-page"><section className="admin-login-card">
-    <Link href="/" className="admin-login-brand"><img src="/assets/vesterra-logo.jpeg" alt="Vesterra Group"/><span>Vesterra</span></Link>
+    <Link href="/" className="admin-login-brand"><img src="/assets/vesterra-mark.svg" alt=""/><span>Vesterra</span></Link>
     <div className="admin-login-kicker">Secure administration</div><h1>Welcome back.</h1><p>Sign in to manage properties, enquiries and website content.</p>
     {!configured?<div className="admin-login-warning">Admin login is not configured yet. Add <code>ADMIN_PASSWORD</code> and <code>ADMIN_SESSION_SECRET</code> as encrypted Cloudflare Worker secrets.</div>:null}
     {query.error?<div className="admin-login-error">Incorrect password. Please try again.</div>:null}
