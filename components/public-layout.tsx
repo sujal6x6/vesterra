@@ -9,6 +9,12 @@ export function PublicLayout({ children, current, pageClass = "" }: { children:R
   const nav = [["/about","About"],["/team","Team"],["/services","Our Verticals"],["/properties","Properties"],["/contact","Contact"]];
   return <div className={`site-page ${pageClass}`.trim()} id="top">
     <a className="sr skip" href="#main-content">Skip to content</a>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/theme.css" />
+    <link rel="stylesheet" href="/polish.css" />
     <header className="hdr" id="hdr"><div className="wrap hdr-in">
       <Link href="/" className="brand" aria-label="Vesterra Group home"><img src="/assets/vesterra-mark.svg" alt=""/><span><strong>Vesterra</strong><small>Group</small></span></Link>
       <nav className="nav" id="nav" aria-label="Main navigation">{nav.map(([href,label])=><Link key={href} href={href} className={current===href?"active":""}>{label}</Link>)}<Link href="/contact" className="btn btn-primary mnav-cta">Talk to Us</Link></nav>
