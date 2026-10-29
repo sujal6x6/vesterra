@@ -2,9 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
   const hostname = request.nextUrl.hostname.toLowerCase();
-  if (hostname === "www.vesterragroup.in") {
+  const apexHostname = hostname.startsWith("www.") ? hostname.slice(4) : "";
+  const isSupportedApexDomain =
+    apexHostname === "vesterragroup.in" || apexHostname === "vesterragroup.com";
+
+  if (isSupportedApexDomain) {
     const canonicalUrl = request.nextUrl.clone();
-    canonicalUrl.hostname = "vesterragroup.in";
+    canonicalUrl.hostname = apexHostname;
     canonicalUrl.protocol = "https:";
     canonicalUrl.port = "";
     return NextResponse.redirect(canonicalUrl, 308);

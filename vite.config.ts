@@ -80,6 +80,14 @@ export default defineConfig(async ({ command }) => {
                     pattern: "www.vesterragroup.in",
                     custom_domain: true,
                   },
+                  {
+                    pattern: "vesterragroup.com",
+                    custom_domain: true,
+                  },
+                  {
+                    pattern: "www.vesterragroup.com",
+                    custom_domain: true,
+                  },
                 ],
               }
             : {}),
