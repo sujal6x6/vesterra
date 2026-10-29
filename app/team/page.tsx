@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
 import { PublicLayout } from "@/components/public-layout";
 import { TeamSection } from "@/components/team-section";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Our Team",
   description: "Meet the leadership team guiding Vesterra Group across real estate, hospitality and investments.",
-  alternates: { canonical: "/team" },
-};
+  path: "/team",
+});
 
 export default function TeamPage() {
   return <PublicLayout current="/team" pageClass="team-page">

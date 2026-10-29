@@ -187,14 +187,17 @@ async function loadWebsiteSettings() {
     const description = document.querySelector('meta[name="description"]');
     if (location.pathname === '/' && description && settings.seo?.description) description.content = settings.seo.description;
     if (integrations.metaPixelEnabled && /^\d{5,24}$/.test(String(integrations.metaPixelId || ''))) installMetaPixel(String(integrations.metaPixelId));
-  } catch (_) {
+  } catch {
     // The authored defaults remain visible if settings are temporarily unavailable.
   }
 }
 
 function installMetaPixel(pixelId) {
   if (typeof window.fbq === 'function') return;
-  const fbq = function () { fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments); };
+  const fbq = function () {
+    if (fbq.callMethod) fbq.callMethod.apply(fbq, arguments);
+    else fbq.queue.push(arguments);
+  };
   fbq.queue = []; fbq.loaded = true; fbq.version = '2.0'; window.fbq = fbq;
   const script = document.createElement('script');
   script.async = true;
@@ -276,7 +279,7 @@ async function loadFeaturedProperties() {
     const conversation = document.getElementById('propertyConversation');
     if (conversation) conversation.hidden = homepageProperties.length > 0;
     section.hidden = homepageProperties.length === 0 && !conversation;
-  } catch (_) {
+  } catch {
     // The hand-authored home page remains complete without dynamic listings.
   }
 }
@@ -320,7 +323,7 @@ async function loadPublicContent() {
       });
       section.hidden = false;
     }
-  } catch (_) {
+  } catch {
     // Optional dynamic sections stay hidden if content is unavailable.
   }
 }

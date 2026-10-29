@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import { desc, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { properties } from "@/db/schema";
 import { PropertyCard, PublicLayout } from "@/components/public-layout";
+import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
-export const metadata:Metadata = {
+export const metadata = createPageMetadata({
   title:"Properties",
-  description:"Explore property opportunities listed by Vesterra Group.",
-  alternates:{canonical:"/properties"},
-};
+  description:"Browse residential and commercial property opportunities presented by Vesterra Group in Mohali and surrounding locations.",
+  path:"/properties",
+});
 
 export default async function PropertiesPage() {
   const rows = await getDb().select().from(properties).where(eq(properties.published, true)).orderBy(desc(properties.createdAt));

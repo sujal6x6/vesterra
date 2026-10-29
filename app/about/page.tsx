@@ -1,12 +1,12 @@
 import { AnimatedBrand } from "@/components/animated-brand";
 import { PublicLayout } from "@/components/public-layout";
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "About",
-  description: "Discover the perspective, verticals and principles that shape Vesterra Group.",
-  alternates: { canonical: "/about" },
-};
+  description: "Discover the perspective, connected verticals and enduring principles that shape Vesterra Group.",
+  path: "/about",
+});
 
 const verticals = [
   {

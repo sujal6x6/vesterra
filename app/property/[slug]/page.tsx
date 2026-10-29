@@ -21,9 +21,10 @@ export async function generateMetadata({ params }:{ params:Promise<{slug:string}
   const { seo } = await getSiteSettings();
   const siteUrl = normaliseSiteUrl(seo.siteUrl);
   const imageUrl = property ? absoluteSiteUrl(propertyImageFor(property), siteUrl) : undefined;
+  const description = property?.description?.trim() || (property ? `Explore ${property.title} in ${property.location} with Vesterra Group.` : "Property details from Vesterra Group.");
   return property
-    ? { title:property.title, description:property.description.slice(0, 160), alternates:{canonical:`/property/${property.slug}`}, openGraph:{type:"website",title:`${property.title} | Vesterra Group`,description:property.description.slice(0,160),url:`${siteUrl}/property/${property.slug}`,images:imageUrl?[{url:imageUrl,alt:property.title}]:undefined}, twitter:{card:"summary_large_image",title:property.title,description:property.description.slice(0,160),images:imageUrl?[imageUrl]:undefined} }
-    : { title:"Property | Vesterra Group" };
+    ? { title:property.title, description:description.slice(0, 160), alternates:{canonical:`/property/${property.slug}`}, openGraph:{type:"website",locale:"en_IN",siteName:"Vesterra Group",title:`${property.title} | Vesterra Group`,description:description.slice(0,160),url:`${siteUrl}/property/${property.slug}`,images:imageUrl?[{url:imageUrl,alt:property.title}]:undefined}, twitter:{card:"summary_large_image",title:`${property.title} | Vesterra Group`,description:description.slice(0,160),images:imageUrl?[imageUrl]:undefined} }
+    : { title:"Property", robots:{index:false,follow:true} };
 }
 
 export default async function PropertyPage({ params }:{ params:Promise<{slug:string}> }) {
