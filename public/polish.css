@@ -217,10 +217,13 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
   .vertical-rail-head b{font-size:15px}
   .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
   .services-page .vertical-page-list::-webkit-scrollbar{display:none}
-  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(82vw,350px);min-height:386px;padding:23px;scroll-snap-align:start;border-radius:var(--radius-lg)}
-  .services-page .vertical-page-card h2{font-size:38px}
-  .services-page .vertical-page-card p{font-size:12.5px}
-  .services-page .vertical-detail{font-size:8px}
+  .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(78vw,320px);min-height:340px;padding:20px;scroll-snap-align:start;border-radius:var(--radius-lg)}
+  .services-page .vertical-page-card>.vertical-number{top:18px;left:18px;width:38px;height:38px;font-size:9px}
+  .services-page .vertical-card-copy small{margin-bottom:8px;font-size:8px}
+  .services-page .vertical-page-card h2{font-size:34px}
+  .services-page .vertical-page-card p{margin-top:10px;font-size:11.5px;line-height:1.5}
+  .services-page .vertical-detail{margin-top:10px;font-size:7.5px}
+  .services-page .vertical-page-card>a{padding-top:13px;margin-top:16px;font-size:11px}
   .services-cta{padding-bottom:54px!important}
   .services-cta-card{gap:26px;padding:32px 24px;border-radius:var(--radius-lg)}
   .services-cta-card h2{font-size:40px}
