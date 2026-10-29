@@ -54,6 +54,10 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 /* Services are visual destinations instead of paragraph rows. */
 .services-page .services-showcase{padding-block:clamp(64px,8vw,110px)}
 .services-page .services-hero{padding-bottom:clamp(82px,10vw,138px)}
+.services-hero-bottom{display:grid;grid-template-columns:minmax(0,650px) 112px;gap:24px;align-items:end;max-width:790px;margin-top:28px}
+.services-page .services-hero .services-hero-bottom p{margin:0}
+.services-hero-logo{width:112px;transform:rotate(2deg)}
+.services-hero-logo .story-logo{border-radius:26px;box-shadow:0 20px 55px rgba(7,13,10,.2)}
 .vertical-jump-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
 .vertical-jump-nav a{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:9px 16px;border:1px solid var(--line-strong);border-radius:999px;background:color-mix(in srgb,var(--surface) 78%,transparent);font-size:12px;font-weight:700;transition:transform .25s,border-color .25s,background .25s}
 .vertical-jump-nav a:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--surface)}
@@ -208,13 +212,14 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 
   .services-page .services-showcase{padding-block:46px}
   .services-page .services-hero{padding-bottom:58px}
+  .services-hero-bottom{grid-template-columns:minmax(0,1fr) 82px;gap:14px;align-items:center;margin-top:20px}
+  .services-hero-logo{width:82px}
+  .services-hero-logo .story-logo{border-radius:19px}
   .vertical-jump-nav{gap:7px;margin-top:25px}
   .vertical-jump-nav a{min-height:38px;padding:8px 12px;font-size:10px}
   .services-intro{margin-bottom:26px}
   .services-intro .h2{font-size:37px}
-  .vertical-rail-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-  .vertical-rail-head span:last-child{color:var(--accent);text-align:right}
-  .vertical-rail-head b{font-size:15px}
+  .vertical-rail-head{display:flex;align-items:center;gap:14px;margin-bottom:12px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
   .services-page .vertical-page-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:2px 16px 16px;scrollbar-width:none}
   .services-page .vertical-page-list::-webkit-scrollbar{display:none}
   .services-page .vertical-page-card,.services-page .vertical-page-card:last-child{grid-column:auto;flex:0 0 min(78vw,320px);min-height:340px;padding:20px;scroll-snap-align:start;border-radius:var(--radius-lg)}

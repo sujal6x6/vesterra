@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PublicLayout } from "@/components/public-layout";
+import { AnimatedBrand } from "@/components/animated-brand";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -48,7 +49,10 @@ export default function ServicesPage() {
       <div className="wrap">
         <div className="eyebrow">Our verticals</div>
         <h1>Three focused worlds.<br/><span>One Vesterra vision.</span></h1>
-        <p>Distinct fields, connected by thoughtful decisions, personal attention and a commitment to lasting value.</p>
+        <div className="services-hero-bottom">
+          <p>Distinct fields, connected by thoughtful decisions, personal attention and a commitment to lasting value.</p>
+          <div className="services-hero-logo"><AnimatedBrand /></div>
+        </div>
         <nav className="vertical-jump-nav" aria-label="Explore our verticals">
           {verticals.map((vertical) => <a href={`#${vertical.id}`} key={vertical.id}>
             <span>{vertical.number}</span>{vertical.title}
@@ -68,7 +72,6 @@ export default function ServicesPage() {
 
       <div className="wrap vertical-rail-head" aria-hidden="true">
         <span>Explore all three verticals</span>
-        <span>Auto-swipes · swipe anytime <b>→</b></span>
       </div>
 
       <div className="wrap vertical-page-list">
