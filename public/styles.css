@@ -58,6 +58,31 @@ h1,h2,h3,h4{font-family:var(--f-head);color:var(--heading);margin:0;line-height:
 @media(max-width:620px){.page-hero{padding:70px 0}.page-hero h1{font-size:48px}.listing-head,.featured-head{align-items:flex-start;flex-direction:column}.property-grid{grid-template-columns:1fr}.property-detail-facts{gap:18px;flex-wrap:wrap}.vertical-page-card{grid-template-columns:38px 1fr;gap:15px}.vertical-page-card h2{font-size:30px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal,.hero-load{opacity:1;transform:none}}
 
+/* Leadership — editorial portrait cards using the supplied Vesterra artwork. */
+.team-section{position:relative;overflow:hidden;background:#090a0b;color:#fff;isolation:isolate}
+.team-section::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(212,163,63,.045),transparent 42%);z-index:-2}
+.team-orbit{position:absolute;right:-210px;top:-280px;width:650px;height:650px;border:1px solid rgba(212,163,63,.2);border-radius:50%;z-index:-1}
+.team-orbit::after{content:"";position:absolute;inset:90px;border:1px dashed rgba(212,163,63,.11);border-radius:50%}
+.team-inner{position:relative;z-index:1}
+.team-heading{display:grid;grid-template-columns:1fr .78fr;gap:clamp(35px,6vw,95px);align-items:end;margin-bottom:48px}
+.team-heading .eyebrow{color:var(--gold)}.team-heading .h2{color:#fff;max-width:none}.team-heading .h2 span{color:var(--gold)}
+.team-heading>p{color:#a9aaad;max-width:47ch;justify-self:end;font-size:16px;line-height:1.7}
+.team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.team-card{display:grid;grid-template-columns:minmax(190px,.88fr) minmax(0,1.12fr);min-height:390px;position:relative;overflow:hidden;background:#121315;border:1px solid #2b2924;border-radius:20px;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s}
+.team-card:hover{transform:translateY(-6px);border-color:#806224;box-shadow:0 22px 50px rgba(0,0,0,.28)}
+.team-grid .reveal:nth-child(2){transition-delay:.12s}
+.team-photo{position:relative;min-height:390px;overflow:hidden;background-color:#171719;background-repeat:no-repeat;background-size:270% auto;background-position:right top;filter:saturate(.92)}
+.team-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 52%,#121315 100%),linear-gradient(0deg,rgba(0,0,0,.5),transparent 44%)}
+.team-photo.harpreet{background-image:url("/assets/team/harpreet-singh-devgun.png")}.team-photo.ashok{background-image:url("/assets/team/ashok-kumar-singh.png")}
+.team-photo>span{position:absolute;z-index:2;left:18px;bottom:18px;width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(212,163,63,.58);border-radius:50%;color:var(--gold);font:600 12px var(--f-head);background:rgba(7,7,8,.76);backdrop-filter:blur(6px)}
+.team-copy{display:flex;flex-direction:column;justify-content:center;padding:36px 30px;position:relative}
+.team-role{color:var(--gold);font:700 10px var(--f-body);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+.team-copy h3{color:#fff;font-size:clamp(25px,2.25vw,34px);line-height:1.05;max-width:11ch}.team-copy p{color:#a8a8a8;font-size:13px;line-height:1.55;margin-top:15px;max-width:27ch}
+.team-copy i{display:block;width:52px;height:2px;background:var(--gold);margin-top:28px}.team-swipe-note{display:none}
+
+@media(max-width:900px){.team-heading{grid-template-columns:1fr;gap:18px}.team-heading>p{justify-self:start}.team-card{grid-template-columns:1fr;min-height:0}.team-photo{min-height:340px}.team-copy{padding:27px 25px 30px}.team-copy h3{max-width:none}}
+@media(max-width:620px){.team-heading{margin-bottom:23px}.team-heading>p{font-size:13.5px;line-height:1.6}.team-swipe-note{display:flex;align-items:center;gap:7px;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:15px}.team-swipe-note b{font-size:16px;animation:swipe-cue 1.7s ease-in-out infinite}.team-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:13px;margin-inline:-16px;padding:2px 16px 14px;scrollbar-width:none}.team-grid::-webkit-scrollbar{display:none}.team-card{flex:0 0 min(86vw,340px);scroll-snap-align:start;grid-template-columns:1fr}.team-photo{min-height:0;aspect-ratio:1/1;background-size:210% auto}.team-copy{padding:22px 21px 25px}.team-copy h3{font-size:27px}.team-copy p{font-size:12.5px}.team-copy i{margin-top:21px}}
+
 /* Compact property experience for phone screens. */
 @media(max-width:620px){
   .properties-index-page .page-hero{padding:46px 0 52px}
