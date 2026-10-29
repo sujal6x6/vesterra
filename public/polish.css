@@ -165,8 +165,12 @@ h3,h4,.btn,.nav,.eyebrow,.property-meta,.property-facts,.brand{font-family:var(-
 
   .editorial-home .worlds-grid{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:2px 16px 14px;scrollbar-width:none}
   .editorial-home .worlds-grid::-webkit-scrollbar{display:none}
-  .editorial-home .world-card{flex:0 0 84vw;min-height:440px;padding:25px;scroll-snap-align:start;border-radius:var(--radius-lg)}
-  .editorial-home .world-copy h3{font-size:39px}
+  .editorial-home .world-card{flex:0 0 min(82vw,360px);min-height:330px;padding:20px;scroll-snap-align:start;border-radius:var(--radius-lg)}
+  .editorial-home .world-number{font-size:8px;letter-spacing:.12em}
+  .editorial-home .world-copy h3{font-size:31px;line-height:1}
+  .editorial-home .world-copy p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;margin:10px 0 14px;font-size:12px;line-height:1.45}
+  .editorial-home .world-link{padding-top:11px;font-size:10px}
+  .editorial-home .world-link b{font-size:18px}
   .editorial-home .why{border-radius:var(--radius-md);padding:23px 21px}
   .editorial-home .why h3{font-size:25px}
   .editorial-home .final{padding:48px 0}
