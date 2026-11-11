@@ -10,7 +10,7 @@ export default async function AdminPage() {
   return (
     <>
       <div style={{ position: "fixed", top: 18, right: 24, zIndex: 70 }}>
-        <a className="adm-btn primary" href="/admin/maintenance">Maintenance mode</a>
+        <a className="adm-btn primary" href="/admin/settings">Website settings</a>
       </div>
       <AdminClient user={user.displayName} signOutPath="/api/admin/logout?return_to=/" />
     </>
