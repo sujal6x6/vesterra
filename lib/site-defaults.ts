@@ -1,4 +1,9 @@
 export const siteDefaults = {
+  maintenance: {
+    enabled: false,
+    title: "We’ll be back soon",
+    message: "Our website is currently undergoing scheduled maintenance. Please check back shortly.",
+  },
   hero: {
     eyebrow: "Real Estate · Hospitality · Investments",
     title: "Places With Purpose.\nFutures With Promise.",
