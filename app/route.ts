@@ -1,4 +1,4 @@
-import siteHtml from "../public/site.html?raw";
+import siteHtml from "./site.html?raw";
 import { absoluteSiteUrl, getSiteSettings, normaliseSiteUrl } from "@/lib/site-settings";
 
 export const dynamic = "force-dynamic";

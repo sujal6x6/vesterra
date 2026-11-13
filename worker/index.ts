@@ -2,6 +2,31 @@ import handler from "vinext/server/fetch-handler";
 import { runWithConnectorBinding } from "../lib/connector-context";
 import type { ConnectorBinding } from "../lib/connector-contract.mjs";
 
+import { getMaintenanceMode } from "../lib/maintenance";
+import maintenanceHtml from "./maintenance.html?raw";
+
+const maintenanceBypass = /^(?:\/(?:admin|api\/admin|api\/media|assets|_next)(?:\/|$)|\/(?:signin-with-chatgpt|signout-with-chatgpt|callback|favicon\.svg)\/?$)/;
+
+async function maintenanceResponse(request: Request, pathname: string) {
+  if (maintenanceBypass.test(pathname)) return null;
+
+  try {
+    if (!await getMaintenanceMode()) return null;
+  } catch (error) {
+    console.error("Could not read maintenance mode", error);
+    return null;
+  }
+
+  const api = pathname.startsWith("/api/");
+  const headers = {
+    "Cache-Control": "no-store",
+    "Retry-After": "300",
+    "Content-Type": api ? "application/json; charset=utf-8" : "text/html; charset=utf-8",
+  };
+  const body = api ? JSON.stringify({ error: "Website maintenance is in progress." }) : maintenanceHtml;
+  return new Response(request.method === "HEAD" ? null : body, { status: 503, headers });
+}
+
 const worker = {
   async fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
     const url = new URL(request.url);
@@ -10,6 +35,12 @@ const worker = {
       url.protocol = "https:";
       return Response.redirect(url,308);
     }
+    const maintenance = await maintenanceResponse(request, url.pathname);
+    if (maintenance) {
+      if (!local) applySecurityHeaders(maintenance.headers);
+      return maintenance;
+    }
+
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and
     // the auxiliary service binding are absent from production builds.

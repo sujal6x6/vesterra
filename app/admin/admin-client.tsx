@@ -28,7 +28,7 @@ export default function AdminClient({ user, signOutPath }: { user:string; signOu
     <aside className="admin-side"><a className="admin-logo" href="/" target="_blank"><img src="/assets/vesterra-mark.svg" alt=""/><span><strong>Vesterra</strong><small>Admin</small></span></a><nav className="admin-nav">{nav.map(([id,label,Icon])=><button key={id} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon/><span>{label}</span>{id==="leads"&&stats?.leadsNew?<b className="nav-count">{stats.leadsNew}</b>:null}</button>)}</nav><div className="admin-side-foot"><div className="admin-user">{user}</div><a href={signOutPath}>Sign out</a></div></aside>
     <main className="admin-main"><header className="admin-top"><div><h1>{titles[tab][0]}</h1><p>{titles[tab][1]}</p></div><div className="top-actions"><a className="adm-btn" href="/" target="_blank">View website <ExternalLink size={16}/></a></div></header>
       {loading?<div className="panel loading">Loading…</div>:<>
-        {tab==="dashboard"&&<Dashboard stats={stats} go={setTab}/>} {tab==="leads"&&<Leads items={leads} reload={()=>load("leads")} request={request} notify={notify}/>} {tab==="properties"&&<PropertiesView items={properties} reload={()=>load("properties")} request={request} notify={notify}/>} {tab==="reviews"&&<Reviews items={reviews} reload={()=>load("reviews")} request={request} notify={notify}/>} {tab==="gallery"&&<GalleryView items={gallery} reload={()=>load("gallery")} request={request} notify={notify}/>} {tab==="seo"&&settings&&<SettingsView data={settings} setData={setSettings} active="seo" setActive={()=>{}} request={request} notify={notify} seoOnly/>} {tab==="settings"&&settings&&<SettingsView data={settings} setData={setSettings} active={settingsTab} setActive={setSettingsTab} request={request} notify={notify}/>}</>}
+        {tab==="dashboard"&&<Dashboard stats={stats} go={setTab}/>} {tab==="leads"&&<Leads items={leads} reload={()=>load("leads")} request={request} notify={notify}/>} {tab==="properties"&&<PropertiesView items={properties} reload={()=>load("properties")} request={request} notify={notify}/>} {tab==="reviews"&&<Reviews items={reviews} reload={()=>load("reviews")} request={request} notify={notify}/>} {tab==="gallery"&&<GalleryView items={gallery} reload={()=>load("gallery")} request={request} notify={notify}/>} {tab==="seo"&&settings&&<SettingsView data={settings} setData={setSettings} active="seo" setActive={()=>{}} request={request} notify={notify} seoOnly/>} {tab==="settings"&&<MaintenanceControl request={request}/>} {tab==="settings"&&settings&&<SettingsView data={settings} setData={setSettings} active={settingsTab} setActive={setSettingsTab} request={request} notify={notify}/>}</>}
     </main>{toast&&<div className="toast">{toast}</div>}
   </div>;
 }
@@ -58,6 +58,61 @@ function GalleryView({items,reload,request,notify}:{items:Gallery[];reload:()=>v
   const patch=async(id:number,data:Partial<Pick<Gallery,"published"|"title"|"caption">>)=>{await request(`/api/admin/gallery/${id}`,{method:"PATCH",body:JSON.stringify(data)});reload()};
   const remove=async(id:number)=>{if(!confirm("Delete this media item?"))return;await request(`/api/admin/gallery/${id}`,{method:"DELETE"});reload()};
   return <><form className="panel form-panel form-grid" onSubmit={add}><label className="form-field">Media type<select value={type} onChange={e=>setType(e.target.value)}><option value="image">Image</option><option value="video">Video</option></select></label><label className="form-field">Title<input name="title"/></label>{type==="image"?<ImageUpload label="Gallery image" value={imageUrl} onChange={setImageUrl} notify={notify} required/>:<label className="form-field full">HTTPS video URL<input name="url" type="url" required placeholder="https://…"/></label>}<label className="form-field full">Caption<textarea name="caption" rows={2}/></label><div className="form-actions"><button className="adm-btn primary">Add media</button></div></form><div className="item-list">{!items.length?<Empty text="The gallery is empty. Add an image or video above."/>:items.map(item=><article className="panel gallery-card gallery-row" key={item.id}>{item.type==="image"?<img className="gallery-preview" src={item.url} alt=""/>:<div className="gallery-preview"/>}<div><h3>{item.title||"Untitled media"}</h3><p className="meta">{item.type} · {item.published?"Visible":"Hidden"}</p><p className="card-body">{item.caption}</p></div><div className="card-actions"><button className="adm-btn small" onClick={()=>patch(item.id,{published:!item.published})}>{item.published?"Hide":"Show"}</button><button className="adm-btn small danger" onClick={()=>remove(item.id)}>Delete</button></div></article>)}</div></>;
+}
+
+function MaintenanceControl({ request }: { request: ApiRequest }) {
+  const endpoint = "/api/admin/maintenance";
+  const [enabled, setEnabled] = useState<boolean | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void request<{ enabled: boolean }>(endpoint, { signal: controller.signal })
+      .then((result) => setEnabled(result.enabled))
+      .catch(() => {
+        if (!controller.signal.aborted) setMessage("Could not load maintenance mode. Reload to try again.");
+      });
+    return () => controller.abort();
+  }, [request]);
+
+  async function toggle() {
+    setSaving(true);
+    setMessage("");
+    try {
+      const result = await request<{ enabled: boolean }>(endpoint, {
+        method: "PUT",
+        body: JSON.stringify({ enabled: !enabled }),
+      });
+      setEnabled(result.enabled);
+      setMessage(result.enabled ? "Maintenance mode is on." : "The public website is back online.");
+    } catch {
+      setMessage("Could not save maintenance mode. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className="panel quick">
+      <h2>Maintenance mode</h2>
+      <p>Show a maintenance page to visitors while keeping the admin panel accessible.</p>
+      <div className="quick-row">
+        <button
+          type="button"
+          className="adm-btn"
+          role="switch"
+          aria-label="Maintenance mode"
+          aria-checked={enabled === true}
+          disabled={saving || enabled === null}
+          onClick={toggle}
+        >
+          {saving ? "Saving…" : enabled === null ? "Status unavailable" : enabled ? "On" : "Off"}
+        </button>
+      </div>
+      <p role="status">{message}</p>
+    </section>
+  );
 }
 
 function SettingsView({data,setData,active,setActive,request,notify,seoOnly=false}:{data:SettingsData;setData:(d:SettingsData)=>void;active:string;setActive:(s:string)=>void;request:ApiRequest;notify:(s:string)=>void;seoOnly?:boolean}){
